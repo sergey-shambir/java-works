@@ -21,7 +21,7 @@ Usage: `PasswordGenerator <length> <alphabet>`
 
 ### 1.4 JavaTypeMetrics
 
-Print Java builtin types metrics:
+Prints metrics for Java builtin types:
 
 ```
 Type       Min                    Max                    Size 
