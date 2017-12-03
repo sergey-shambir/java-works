@@ -1,10 +1,10 @@
 package name.sergey.shambir;
 
 public class Main {
-    public static void printUsage()
-    {
+    public static void printUsage() {
         System.err.print("Usage: CaesarCipher (-e | -d) <key> <text>\n");
-        System.err.print(" where key - non-negative integer cipher offset in alphabet\n");
+        System.err.print(
+            " where key - non-negative integer cipher offset in alphabet\n");
     }
 
     public static void main(String[] args) {

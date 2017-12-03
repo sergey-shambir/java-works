@@ -7,13 +7,11 @@ import java.math.BigDecimal;
 public class CashDesk {
     private BigDecimal cash;
 
-    public CashDesk()
-    {
+    public CashDesk() {
         this.cash = BigDecimal.ZERO;
     }
 
-    public void addCash(BigDecimal value)
-    {
+    public void addCash(BigDecimal value) {
         this.cash = MoneyUtils.normalize(this.cash.add(value));
     }
 }

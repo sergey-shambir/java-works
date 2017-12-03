@@ -19,8 +19,8 @@ public class Product {
     private final BigDecimal price;
     private final BigDecimal bonusesPercentage;
 
-    public Product(String name, Category category, BigDecimal price, int bonusPercentage)
-    {
+    public Product(String name, Category category, BigDecimal price,
+                   int bonusPercentage) {
         assert(bonusPercentage >= 0 && bonusPercentage <= 100);
         this.name = name;
         this.category = category;
@@ -28,40 +28,33 @@ public class Product {
         this.bonusesPercentage = new BigDecimal(bonusPercentage);
     }
 
-    public final String getName()
-    {
+    public final String getName() {
         return this.name;
     }
 
-    public final BigDecimal getPrice()
-    {
+    public final BigDecimal getPrice() {
         return this.price;
     }
 
-    public final BigDecimal getBonusesPercentage()
-    {
+    public final BigDecimal getBonusesPercentage() {
         return this.bonusesPercentage;
     }
 
-    public final int hashCode()
-    {
+    public final int hashCode() {
         return Objects.hash(name, category, price, bonusesPercentage);
     }
 
-    public final boolean equals(Object other)
-    {
-        if (this == other)
-        {
+    public final boolean equals(Object other) {
+        if (this == other) {
             return true;
         }
-        if ((other == null) || (getClass() != other.getClass()))
-        {
+        if ((other == null) || (getClass() != other.getClass())) {
             return false;
         }
         Product otherProduct = (Product)other;
-        return name.equals(otherProduct.name)
-                && category.equals(otherProduct.category)
-                && price.equals(otherProduct.price)
-                && (bonusesPercentage == otherProduct.bonusesPercentage);
+        return name.equals(otherProduct.name) &&
+            category.equals(otherProduct.category) &&
+            price.equals(otherProduct.price) &&
+            (bonusesPercentage == otherProduct.bonusesPercentage);
     }
 }

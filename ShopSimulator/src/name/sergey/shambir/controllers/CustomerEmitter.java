@@ -10,8 +10,6 @@ import java.util.Random;
 
 public class CustomerEmitter {
     private static final int MAX_MINUTES_BEFORE_CUSTOMER = 20;
-    private static final String[] CUSTOMER_NAMES = {
-    };
 
     private final LocalTime openingTime;
     private final Random random;
@@ -20,14 +18,15 @@ public class CustomerEmitter {
     private LocalTime nextCustomerTime;
     private ShopEventsListener listener;
 
-    public CustomerEmitter(LocalTime openingTime, Random random, ShopEventsListener listener)
-    {
+    public CustomerEmitter(LocalTime openingTime, Random random,
+                           ShopEventsListener listener) {
         this.openingTime = openingTime;
         this.listener = listener;
         this.random = random;
         this.nameGenerator = new NameGenerator(this.random);
 
-        this.categoryGenerator = new EnumRandomGenerator<>(this.random, Customer.Category.class);
+        this.categoryGenerator =
+            new EnumRandomGenerator<>(this.random, Customer.Category.class);
         this.categoryGenerator.setWeight(Customer.Category.Adult, 2.0);
         this.categoryGenerator.setWeight(Customer.Category.Child, 0.5);
 
@@ -35,23 +34,19 @@ public class CustomerEmitter {
         selectNextCustomerTime();
     }
 
-    public void update(LocalTime time)
-    {
-        while (time.compareTo(this.nextCustomerTime) >= 0)
-        {
+    public void update(LocalTime time) {
+        while (time.compareTo(this.nextCustomerTime) >= 0) {
             listener.onCustomerEntered(createCustomer());
             selectNextCustomerTime();
         }
     }
 
-    private Customer createCustomer()
-    {
+    private Customer createCustomer() {
         final Customer.Category category = this.categoryGenerator.nextValue();
         double netCash = 0;
         double cashOnCard = 0;
         double bonuses = 0;
-        switch (category)
-        {
+        switch (category) {
             case Adult:
                 netCash = randomClampedGaussian(110.0, 90.0);
                 bonuses = this.random.nextDouble() * 20;
@@ -70,21 +65,22 @@ public class CustomerEmitter {
         }
         final String name = this.nameGenerator.nextName();
 
-        final Customer customer = new Customer(name, category, new BigDecimal(cashOnCard), new BigDecimal(netCash));
+        final Customer customer =
+            new Customer(name, category, new BigDecimal(cashOnCard),
+                         new BigDecimal(netCash));
         customer.addBonuses(new BigDecimal(bonuses));
 
         return customer;
     }
 
-    // Returns random values in range [mean - standardDeviation, mean + stddev], where mean is median value and
+    // Returns random values in range [mean - standardDeviation, mean + stddev],
+    // where mean is median value and
     //  stddev is standard deviation for Normal distribution.
-    private double randomClampedGaussian(double mean, double stddev)
-    {
+    private double randomClampedGaussian(double mean, double stddev) {
         // Try to generate up to 10 times.
         for (int i = 0; i < 10; ++i) {
             double value = random.nextGaussian() * stddev + mean;
-            if (value >= mean - stddev && value <= mean + stddev)
-            {
+            if (value >= mean - stddev && value <= mean + stddev) {
                 return value;
             }
         }
@@ -92,9 +88,10 @@ public class CustomerEmitter {
         return mean;
     }
 
-    private void selectNextCustomerTime()
-    {
-        final int minutesBeforeCustomer = random.nextInt(MAX_MINUTES_BEFORE_CUSTOMER);
-        this.nextCustomerTime = this.nextCustomerTime.plusMinutes(minutesBeforeCustomer);
+    private void selectNextCustomerTime() {
+        final int minutesBeforeCustomer =
+            random.nextInt(MAX_MINUTES_BEFORE_CUSTOMER);
+        this.nextCustomerTime =
+            this.nextCustomerTime.plusMinutes(minutesBeforeCustomer);
     }
 }

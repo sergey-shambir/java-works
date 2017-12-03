@@ -14,7 +14,7 @@ public class ShopWorld implements ShopEventsListener {
     private static final LocalTime OPENING_TIME = LocalTime.of(8, 0, 0);
     private static final LocalTime CLOSING_TIME = LocalTime.of(22, 0, 0);
     private static final int MINUTES_PER_STEP = 5;
-    private static final long SLEEP_MSEC_BETWEEEN_STEPS = 500;
+    private static final long SLEEP_MSEC_BETWEEN_STEPS = 500;
     private LocalTime currentTime;
     private EventsLogger logger;
     private final Random random;
@@ -27,8 +27,7 @@ public class ShopWorld implements ShopEventsListener {
     private SupermarketSystem supermarketSystem;
     private CashDeskSystem cashDeskSystem;
 
-    public ShopWorld()
-    {
+    public ShopWorld() {
         this.currentTime = OPENING_TIME;
         this.logger = new EventsLogger(this.currentTime);
         this.random = new Random();
@@ -37,13 +36,15 @@ public class ShopWorld implements ShopEventsListener {
         this.cashDesk = new CashDesk();
         this.priceCalculator = new PriceCalculator(this.supermarket);
 
-        this.cashDeskSystem = new CashDeskSystem(this.cashDesk, this.priceCalculator, this);
-        this.supermarketSystem = new SupermarketSystem(this.supermarket, this.priceCalculator, this.random, this);
-        this.customerEmitter = new CustomerEmitter(OPENING_TIME, this.random, this);
+        this.cashDeskSystem =
+            new CashDeskSystem(this.cashDesk, this.priceCalculator, this);
+        this.supermarketSystem = new SupermarketSystem(
+            this.supermarket, this.priceCalculator, this.random, this);
+        this.customerEmitter =
+            new CustomerEmitter(OPENING_TIME, this.random, this);
     }
 
-    public void runLoop()
-    {
+    public void runLoop() {
         while (currentTime.compareTo(CLOSING_TIME) < 0) {
             update();
             currentTime = currentTime.plusMinutes(MINUTES_PER_STEP);
@@ -51,19 +52,17 @@ public class ShopWorld implements ShopEventsListener {
         }
     }
 
-    private void update()
-    {
+    private void update() {
         this.logger.setCurrentTime(currentTime);
         customerEmitter.update(this.currentTime);
         supermarketSystem.update();
         cashDeskSystem.update();
     }
 
-    private void sleep()
-    {
+    private void sleep() {
         try {
-            Thread.sleep(SLEEP_MSEC_BETWEEEN_STEPS);
-        } catch (InterruptedException ex)  {
+            Thread.sleep(SLEEP_MSEC_BETWEEN_STEPS);
+        } catch (InterruptedException ex) {
             // ignore interrupt.
         }
     }
@@ -75,7 +74,8 @@ public class ShopWorld implements ShopEventsListener {
     }
 
     @Override
-    public void onCustomerPickUpProduct(Customer customer, String productName, int count) {
+    public void onCustomerPickUpProduct(Customer customer, String productName,
+                                        int count) {
         logger.logCustomerPickUpProduct(customer.getName(), productName, count);
     }
 
@@ -86,8 +86,10 @@ public class ShopWorld implements ShopEventsListener {
     }
 
     @Override
-    public void onCustomerPaid(Customer customer, String[] productsNames, BigDecimal price, BigDecimal bonuses) {
-        logger.logCustomerPaid(customer.getName(), productsNames, price, bonuses);
+    public void onCustomerPaid(Customer customer, String[] productsNames,
+                               BigDecimal price, BigDecimal bonuses) {
+        logger.logCustomerPaid(customer.getName(), productsNames, price,
+                               bonuses);
     }
 
     @Override
@@ -100,8 +102,8 @@ public class ShopWorld implements ShopEventsListener {
         logger.logCustomerLeaveDry(customer.getName());
     }
 
-    private final int getCutomerCount()
-    {
-        return supermarketSystem.getCustomersCount() + cashDeskSystem.getCustomersCount();
+    private final int getCutomerCount() {
+        return supermarketSystem.getCustomersCount() +
+            cashDeskSystem.getCustomersCount();
     }
 }

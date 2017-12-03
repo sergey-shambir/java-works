@@ -13,8 +13,7 @@ public class Supermarket implements DiscountInfo {
         this.discounts = new HashMap<>();
     }
 
-    public void setDiscount(Customer.Category category, int value)
-    {
+    public void setDiscount(Customer.Category category, int value) {
         discounts.put(category, new Integer(value));
     }
 
