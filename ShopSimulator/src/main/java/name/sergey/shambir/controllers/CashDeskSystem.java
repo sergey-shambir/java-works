@@ -12,8 +12,7 @@ public class CashDeskSystem {
     private final ShopEventsListener listener;
     private LinkedList<Customer> customersQueue;
 
-    public CashDeskSystem(CashDesk cashDesk, PriceCalculator priceCalculator,
-                          ShopEventsListener listener) {
+    public CashDeskSystem(CashDesk cashDesk, PriceCalculator priceCalculator, ShopEventsListener listener) {
         this.cashDesk = cashDesk;
         this.priceCalculator = priceCalculator;
         this.listener = listener;
@@ -41,29 +40,16 @@ public class CashDeskSystem {
             return;
         }
 
-        BigDecimal price = this.priceCalculator.getCustomerBasketCost(customer);
-        BigDecimal bonuses =
-            this.priceCalculator.getCustomerBasketBonuses(customer);
-        if (customer.pay(price)) {
-            String[] productNames =
-                collectProductNames(customer.basket.getProducts());
-            cashDesk.addCash(price);
+        BigDecimal cost = this.priceCalculator.getCustomerBasketCost(customer);
+        BigDecimal bonuses = this.priceCalculator.getCustomerBasketBonuses(customer);
+        if (customer.pay(cost)) {
+            String[] productNames = customer.basket.getProductNames();
+            cashDesk.addCash(cost);
             customer.basket.clear();
             customer.addBonuses(bonuses);
-            listener.onCustomerPaid(customer, productNames, price, bonuses);
+            listener.onCustomerPaid(customer, productNames, cost, bonuses);
         } else {
-            listener.onCustomerPaymentFailed(customer, price);
+            listener.onCustomerPaymentFailed(customer, cost);
         }
-    }
-
-    private static String[] collectProductNames(
-        HashMap<Product, Integer> products) {
-        String[] names = new String[products.size()];
-        int index = 0;
-        for (Product product : products.keySet()) {
-            names[index] = product.getName();
-            ++index;
-        }
-        return names;
     }
 }

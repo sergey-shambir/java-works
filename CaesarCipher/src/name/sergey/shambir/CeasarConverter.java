@@ -1,14 +1,12 @@
 package name.sergey.shambir;
 
 public class CeasarConverter {
-    private static final String ENGLISH_ALPHABET_LOWERCASE =
-        "abcdefghijklmnopqrstuvwxyz";
+    private static final String ENGLISH_ALPHABET_LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
 
     private final int key;
 
     public CeasarConverter(int key) {
-        if (key >= ENGLISH_ALPHABET_LOWERCASE.length() ||
-            key <= -ENGLISH_ALPHABET_LOWERCASE.length()) {
+        if (key >= ENGLISH_ALPHABET_LOWERCASE.length() || key <= -ENGLISH_ALPHABET_LOWERCASE.length()) {
             throw new RuntimeException("key should be less than alphabet size");
         }
         this.key = key;
@@ -20,8 +18,7 @@ public class CeasarConverter {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < text.length(); ++i) {
             char unit = text.charAt(i);
-            if (!encryptLowercaseChar(unit, builder) &&
-                !encryptUppercaseChar(unit, builder)) {
+            if (!encryptLowercaseChar(unit, builder) && !encryptUppercaseChar(unit, builder)) {
                 // Characters that are not alphabet will be ignored.
                 builder.append(unit);
             }
@@ -29,24 +26,19 @@ public class CeasarConverter {
         return builder.toString();
     }
 
-    private final boolean encryptLowercaseChar(char unit,
-                                               StringBuilder builder) {
+    private final boolean encryptLowercaseChar(char unit, StringBuilder builder) {
         final int pos = ENGLISH_ALPHABET_LOWERCASE.indexOf(unit);
         if (pos != -1) {
-            builder.append(
-                ENGLISH_ALPHABET_LOWERCASE.charAt(getOffset(pos, key)));
+            builder.append(ENGLISH_ALPHABET_LOWERCASE.charAt(getOffset(pos, key)));
             return true;
         }
         return false;
     }
 
-    private final boolean encryptUppercaseChar(char unit,
-                                               StringBuilder builder) {
-        final int pos =
-            ENGLISH_ALPHABET_LOWERCASE.indexOf(Character.toLowerCase(unit));
+    private final boolean encryptUppercaseChar(char unit, StringBuilder builder) {
+        final int pos = ENGLISH_ALPHABET_LOWERCASE.indexOf(Character.toLowerCase(unit));
         if (pos != -1) {
-            builder.append(Character.toUpperCase(
-                ENGLISH_ALPHABET_LOWERCASE.charAt(getOffset(pos, key))));
+            builder.append(Character.toUpperCase(ENGLISH_ALPHABET_LOWERCASE.charAt(getOffset(pos, key))));
             return true;
         }
         return false;

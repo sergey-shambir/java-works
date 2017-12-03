@@ -1,6 +1,7 @@
 package name.sergey.shambir.models;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public class Basket {
     private HashMap<Product, Integer> products;
@@ -20,7 +21,7 @@ public class Basket {
 
     public void takeProduct(Product product, int count) {
         Integer existingCount = products.get(product);
-        assert(existingCount != null && existingCount.intValue() >= count);
+        assert existingCount != null && existingCount.intValue() >= count;
         final int countLeft = existingCount.intValue() - count;
         if (countLeft == 0) {
             products.remove(product);
@@ -31,8 +32,22 @@ public class Basket {
         return this.products.isEmpty();
     }
 
-    public final HashMap<Product, Integer> getProducts() {
-        return this.products;
+    public final Product[] getUniqueProducts() {
+        final Set<Product> keys = products.keySet();
+        return keys.toArray(new Product[keys.size()]);
+    }
+
+    public final int getProductCount(Product product) {
+        return this.products.get(product).intValue();
+    }
+
+    public final String[] getProductNames() {
+        Product[] uniqueProducts = getUniqueProducts();
+        String[] names = new String[uniqueProducts.length];
+        for (int i = 0; i < names.length; ++i) {
+            names[i] = uniqueProducts[i].getName();
+        }
+        return names;
     }
 
     public void clear() {

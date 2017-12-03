@@ -13,8 +13,7 @@ public class Customer {
 
     public Basket basket;
 
-    public Customer(String name, Category category, BigDecimal cashOnCard,
-                    BigDecimal netCash) {
+    public Customer(String name, Category category, BigDecimal cashOnCard, BigDecimal netCash) {
         this.name = name;
         this.category = category;
         this.bonuses = BigDecimal.ZERO;

@@ -6,21 +6,14 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Product {
-    public enum Category {
-        Food,
-        Dish,
-        HygieneProduct,
-        Alcohol,
-        Smokables,
-    }
+    public enum Category { Food, Dish, HygieneProduct, Alcohol, Smockables }
 
     private final String name;
     private final Category category;
     private final BigDecimal price;
     private final BigDecimal bonusesPercentage;
 
-    public Product(String name, Category category, BigDecimal price,
-                   int bonusPercentage) {
+    public Product(String name, Category category, BigDecimal price, int bonusPercentage) {
         assert(bonusPercentage >= 0 && bonusPercentage <= 100);
         this.name = name;
         this.category = category;
@@ -52,9 +45,7 @@ public class Product {
             return false;
         }
         Product otherProduct = (Product)other;
-        return name.equals(otherProduct.name) &&
-            category.equals(otherProduct.category) &&
-            price.equals(otherProduct.price) &&
-            (bonusesPercentage == otherProduct.bonusesPercentage);
+        return name.equals(otherProduct.name) && category.equals(otherProduct.category) &&
+            price.equals(otherProduct.price) && (bonusesPercentage == otherProduct.bonusesPercentage);
     }
 }

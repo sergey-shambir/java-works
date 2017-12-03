@@ -3,8 +3,7 @@ package name.sergey.shambir;
 public class Main {
     private static void printUsage() {
         System.err.printf("Usage: PasswordGenerator <length> <alphabet>\n");
-        System.err.printf(
-            " where length - password length, alphabet - string with characters allowed in password\n");
+        System.err.printf(" where length - password length, alphabet - string with characters allowed in password\n");
     }
 
     public static void main(String[] args) {
@@ -16,8 +15,7 @@ public class Main {
                 final int length = Integer.parseUnsignedInt(args[0]);
                 final String alphabet = args[1];
 
-                final PasswordGenerator generator =
-                    new PasswordGenerator(alphabet);
+                final PasswordGenerator generator = new PasswordGenerator(alphabet);
                 final String password = generator.generate(length);
                 System.out.print(password);
             } catch (Exception ex) {

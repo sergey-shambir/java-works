@@ -36,12 +36,9 @@ public class ShopWorld implements ShopEventsListener {
         this.cashDesk = new CashDesk();
         this.priceCalculator = new PriceCalculator(this.supermarket);
 
-        this.cashDeskSystem =
-            new CashDeskSystem(this.cashDesk, this.priceCalculator, this);
-        this.supermarketSystem = new SupermarketSystem(
-            this.supermarket, this.priceCalculator, this.random, this);
-        this.customerEmitter =
-            new CustomerEmitter(OPENING_TIME, this.random, this);
+        this.cashDeskSystem = new CashDeskSystem(this.cashDesk, this.priceCalculator, this);
+        this.supermarketSystem = new SupermarketSystem(this.supermarket, this.priceCalculator, this.random, this);
+        this.customerEmitter = new CustomerEmitter(OPENING_TIME, this.random, this);
     }
 
     public void runLoop() {
@@ -70,12 +67,11 @@ public class ShopWorld implements ShopEventsListener {
     @Override
     public void onCustomerEntered(Customer customer) {
         this.supermarketSystem.addCustomer(customer);
-        logger.logCustomerEntered(customer.getName(), getCutomerCount());
+        logger.logCustomerEntered(customer.getName(), getCustomerCount());
     }
 
     @Override
-    public void onCustomerPickUpProduct(Customer customer, String productName,
-                                        int count) {
+    public void onCustomerPickUpProduct(Customer customer, String productName, int count) {
         logger.logCustomerPickUpProduct(customer.getName(), productName, count);
     }
 
@@ -86,10 +82,8 @@ public class ShopWorld implements ShopEventsListener {
     }
 
     @Override
-    public void onCustomerPaid(Customer customer, String[] productsNames,
-                               BigDecimal price, BigDecimal bonuses) {
-        logger.logCustomerPaid(customer.getName(), productsNames, price,
-                               bonuses);
+    public void onCustomerPaid(Customer customer, String[] productsNames, BigDecimal price, BigDecimal bonuses) {
+        logger.logCustomerPaid(customer.getName(), productsNames, price, bonuses);
     }
 
     @Override
@@ -102,8 +96,7 @@ public class ShopWorld implements ShopEventsListener {
         logger.logCustomerLeaveDry(customer.getName());
     }
 
-    private final int getCutomerCount() {
-        return supermarketSystem.getCustomersCount() +
-            cashDeskSystem.getCustomersCount();
+    private final int getCustomerCount() {
+        return supermarketSystem.getCustomersCount() + cashDeskSystem.getCustomersCount();
     }
 }

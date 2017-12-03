@@ -7,38 +7,33 @@ import java.math.BigDecimal;
 import java.util.Random;
 
 public class ProductGenerator {
-    private static final String[] FOOD_NAMES = {
-        "milk",   "chocolate", "cocoa", "coffee", "meal",   "tomato",
-        "potato", "onion",     "beef",  "ham",    "chicken"};
-    private static final String[] DISH_NAMES = {
-        "plate", "cup", "glass", "spoon", "fork", "tea-set", "teapot"};
-    private static final String[] HYGIENE_PRODUCT_NAMES = {
-        "wipes",     "soap",       "shampoo",   "comb",
-        "hairdryer", "toothbrush", "toothpaste"};
-    private static final String[] ALCOHOL_NAMES = {
-        "wine", "whiskey", "beer", "liquor", "tequila", "martini"};
+    private static final String[] FOOD_NAMES = {"milk",   "chocolate", "cocoa", "coffee", "meal",   "tomato",
+                                                "potato", "onion",     "beef",  "ham",    "chicken"};
+    private static final String[] DISH_NAMES = {"plate", "cup", "glass", "spoon", "fork", "tea-set", "teapot"};
+    private static final String[] HYGIENE_PRODUCT_NAMES = {"wipes",     "soap",       "shampoo",   "comb",
+                                                           "hairdryer", "toothbrush", "toothpaste"};
+    private static final String[] ALCOHOL_NAMES = {"wine", "whiskey", "beer", "liquor", "tequila", "martini"};
     private static final String[] SMOCKABLE_NAMES = {"cigarettes", "cigar"};
 
+    private static final double MIN_PRICE = 2.0;
     private static final double MAX_PRICE = 20.0;
     private static final int MAX_BONUS_VALUE = 10;
 
-    private final Random random;
+    private final EasyRandom random;
     private final EnumRandomGenerator<Product.Category> categoryGenerator;
 
     public ProductGenerator(Random random) {
-        this.random = random;
-        this.categoryGenerator =
-            new EnumRandomGenerator<>(random, Product.Category.class);
+        this.random = new EasyRandom(random);
+        this.categoryGenerator = new EnumRandomGenerator<>(random, Product.Category.class);
     }
 
     public Product nextProduct() {
         final Product.Category category = categoryGenerator.nextValue();
         final String name = nextProductName(category);
-        final double price = MAX_PRICE * random.nextDouble();
-        final int bonusPercentage = random.nextInt(MAX_BONUS_VALUE + 1);
+        final double price = random.nextDoubleInRange(MIN_PRICE, MAX_PRICE);
+        final int bonusPercentage = random.nextIntInRange(0, MAX_BONUS_VALUE);
 
-        return new Product(name, category, new BigDecimal(price),
-                           bonusPercentage);
+        return new Product(name, category, new BigDecimal(price), bonusPercentage);
     }
 
     private String nextProductName(Product.Category category) {
@@ -57,11 +52,10 @@ public class ProductGenerator {
             case Alcohol:
                 names = ALCOHOL_NAMES;
                 break;
-            case Smokables:
+            case Smockables:
                 names = SMOCKABLE_NAMES;
                 break;
         }
-        final int index = random.nextInt(names.length);
-        return names[index];
+        return random.nextItem(names);
     }
 }

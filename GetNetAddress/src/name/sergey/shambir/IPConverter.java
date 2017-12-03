@@ -34,8 +34,7 @@ public class IPConverter {
     private int[] parseAddress(String address) {
         Matcher matcher = addressPattern.matcher(address);
         if (!matcher.matches()) {
-            throw new RuntimeException("address doesn't match pattern: " +
-                                       address);
+            throw new RuntimeException("address doesn't match pattern: " + address);
         }
 
         // ignore group #0 (whole matched string)
