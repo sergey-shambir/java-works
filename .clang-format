@@ -1,0 +1,20 @@
+---
+Language:        Java
+# BasedOnStyle:  Mozilla
+BreakAfterJavaFieldAnnotations: true
+IndentCaseLabels: true
+TabWidth:        4
+UseTab:          Never
+IndentWidth:     4
+ColumnLimit: 120
+AllowShortBlocksOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+BreakBeforeBinaryOperators: false
+BreakBeforeBraces: Attach
+MaxEmptyLinesToKeep: 1
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpacesInParentheses: false
+...
