@@ -33,3 +33,19 @@ Long       -9223372036854775808   9223372036854775807    64
 Float      1.401298464324817E-45  0x1.fffffep127         32   
 Double     4.9E-324               0x1.fffffffffffffp1023 64 
 ```
+
+## Work in progress
+
+### 2.1 SupermarkerSimulator
+
+What implemented:
+
+- products, baskets, customers flow, payments, discounts
+- random-based simulation: random products supply, random products set, random customer actions, customer emitter, etc.
+- precise price calculations with BigDecimal
+
+What isn't:
+
+- final cash desk report
+- product category restrictions
+- unnecessary entities like Bill, PaymentMethod
