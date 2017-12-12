@@ -71,3 +71,10 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# Maven output
+target/classes/
+target/generated-sources/
+target/generated-test-sources/
+target/test-classes/
+
+ShopSimulator/.idea/libraries/
