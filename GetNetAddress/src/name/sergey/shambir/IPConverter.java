@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 public class IPConverter {
     // Groups count in address pattern.
     static final int ADDRESS_BYTE_COUNT = 4;
+    static final int MAX_UBYTE_VALUE = 255;
     // Address regex pattern.
     private Pattern addressPattern;
 
@@ -41,6 +42,9 @@ public class IPConverter {
         int[] bytes = new int[ADDRESS_BYTE_COUNT];
         for (int bi = 0; bi < bytes.length; ++bi) {
             bytes[bi] = Integer.parseUnsignedInt(matcher.group(bi + 1));
+            if (bytes[bi] >= MAX_UBYTE_VALUE) {
+                throw new RuntimeException("address part value is out of range [0..255]");
+            }
         }
         return bytes;
     }

@@ -1,9 +1,9 @@
 package name.sergey.shambir.controllers;
 
 import name.sergey.shambir.models.Customer;
-import name.sergey.shambir.utils.EasyRandom;
-import name.sergey.shambir.utils.EnumRandomGenerator;
-import name.sergey.shambir.utils.NameGenerator;
+import name.sergey.shambir.random.EasyRandom;
+import name.sergey.shambir.random.EnumRandomGenerator;
+import name.sergey.shambir.random.NameGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
@@ -18,9 +18,9 @@ public class CustomerEmitter {
     private LocalTime nextCustomerTime;
     private ShopEventsListener listener;
 
-    public CustomerEmitter(LocalTime openingTime, Random random, ShopEventsListener listener) {
+    public CustomerEmitter(LocalTime openingTime, EasyRandom random, ShopEventsListener listener) {
         this.listener = listener;
-        this.random = new EasyRandom(random);
+        this.random = random;
         this.nameGenerator = new NameGenerator(random);
 
         this.categoryGenerator = new EnumRandomGenerator<>(random, Customer.Category.class);

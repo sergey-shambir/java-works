@@ -11,7 +11,9 @@ public class Basket {
     }
 
     public void putProduct(Product product, int count) {
-        assert(count > 0);
+        if (count <= 0) {
+            throw new RuntimeException("product count should be greater than 0");
+        }
         Integer countValue = products.get(product);
         if (countValue != null) {
             count += countValue.intValue();
@@ -19,13 +21,21 @@ public class Basket {
         products.put(product, new Integer(count));
     }
 
-    public void takeProduct(Product product, int count) {
-        Integer existingCount = products.get(product);
-        assert existingCount != null && existingCount.intValue() >= count;
-        final int countLeft = existingCount.intValue() - count;
-        if (countLeft == 0) {
-            products.remove(product);
+    public boolean takeProduct(Product product, int count) {
+        if (count <= 0) {
+            throw new RuntimeException("product count should be greater than 0");
         }
+        Integer existingCount = products.get(product);
+        if (existingCount != null && existingCount.intValue() >= count) {
+            final int countLeft = existingCount.intValue() - count;
+            if (countLeft == 0) {
+                products.remove(product);
+            } else {
+                products.put(product, countLeft);
+            }
+            return true;
+        }
+        return false;
     }
 
     public final boolean isEmpty() {
@@ -38,7 +48,11 @@ public class Basket {
     }
 
     public final int getProductCount(Product product) {
-        return this.products.get(product).intValue();
+        Integer count = this.products.get(product);
+        if (count == null) {
+            return 0;
+        }
+        return count.intValue();
     }
 
     public final String[] getProductNames() {

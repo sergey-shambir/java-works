@@ -4,9 +4,9 @@ import name.sergey.shambir.models.Customer;
 import name.sergey.shambir.models.PriceCalculator;
 import name.sergey.shambir.models.Product;
 import name.sergey.shambir.models.Supermarket;
-import name.sergey.shambir.utils.EasyRandom;
-import name.sergey.shambir.utils.EnumRandomGenerator;
-import name.sergey.shambir.utils.ProductGenerator;
+import name.sergey.shambir.random.EasyRandom;
+import name.sergey.shambir.random.EnumRandomGenerator;
+import name.sergey.shambir.random.ProductGenerator;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -26,15 +26,15 @@ public class SupermarketSystem {
     private final EnumRandomGenerator<CustomerAction> actionGenerator;
     private final PriceCalculator priceCalculator;
 
-    public SupermarketSystem(Supermarket supermarket, PriceCalculator priceCalculator, Random random,
+    public SupermarketSystem(Supermarket supermarket, PriceCalculator priceCalculator, EasyRandom random,
                              ShopEventsListener listener) {
         this.supermarket = supermarket;
         this.priceCalculator = priceCalculator;
         this.listener = listener;
         this.customers = new LinkedList<>();
-        this.random = new EasyRandom(random);
+        this.random = random;
 
-        this.actionGenerator = new EnumRandomGenerator<>(random, CustomerAction.class);
+        this.actionGenerator = new EnumRandomGenerator<>(this.random, CustomerAction.class);
         this.actionGenerator.setWeight(CustomerAction.PickUp, 5);
         this.actionGenerator.setWeight(CustomerAction.Walk, 10);
 
@@ -73,7 +73,7 @@ public class SupermarketSystem {
     private void initializeShopProducts() {
         final int productCount = this.random.nextIntInRange(MIN_PRODUCT_COUNT, MAX_PRODUCT_COUNT);
 
-        ProductGenerator generator = new ProductGenerator(this.random.getRandom());
+        ProductGenerator generator = new ProductGenerator(this.random);
         for (int i = 0; i < productCount; ++i) {
             Product product = generator.nextProduct();
             final int instanceCount = this.random.nextIntInRange(1, MAX_PRODUCT_INSTANCE_COUNT);
@@ -87,6 +87,10 @@ public class SupermarketSystem {
 
     private void pickupRandomProduct(Customer customer) {
         final Product[] availableProducts = this.supermarket.getUniqueProducts();
+        if (availableProducts.length == 0) {
+            return;
+        }
+
         final Product selectedProduct = this.random.nextItem(availableProducts);
         final int maxCount = supermarket.getProductCount(selectedProduct);
         final int selectedCount = this.random.nextIntInRange(1, maxCount);
@@ -95,7 +99,7 @@ public class SupermarketSystem {
 
         // Customer selects product if and only if he can pay without discounts
         // and bonuses.
-        if (customer.simulatePay(cost)) {
+        if (customer.canPay(cost)) {
             supermarket.takeProduct(selectedProduct, selectedCount);
             customer.basket.putProduct(selectedProduct, selectedCount);
             this.listener.onCustomerPickUpProduct(customer, selectedProduct.getName(), selectedCount);

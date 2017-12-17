@@ -1,6 +1,5 @@
-package name.sergey.shambir.utils;
+package name.sergey.shambir.random;
 
-import name.sergey.shambir.controllers.SupermarketSystem;
 import name.sergey.shambir.models.Product;
 
 import java.math.BigDecimal;
@@ -22,8 +21,8 @@ public class ProductGenerator {
     private final EasyRandom random;
     private final EnumRandomGenerator<Product.Category> categoryGenerator;
 
-    public ProductGenerator(Random random) {
-        this.random = new EasyRandom(random);
+    public ProductGenerator(EasyRandom random) {
+        this.random = random;
         this.categoryGenerator = new EnumRandomGenerator<>(random, Product.Category.class);
     }
 

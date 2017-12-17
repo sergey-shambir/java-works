@@ -10,8 +10,9 @@ public class Main {
                 final IPConverter converter = new IPConverter();
                 final String address = converter.getNetAddress(args[0], args[1]);
                 System.out.print(address);
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (RuntimeException ex) {
+                System.err.printf("%s\n", ex.getMessage());
+                System.err.printf("Usage: GetNetAddress <IP> <mask>\n");
                 System.exit(1);
             }
         }

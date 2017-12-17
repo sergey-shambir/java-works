@@ -1,4 +1,4 @@
-package name.sergey.shambir.utils;
+package name.sergey.shambir.random;
 
 import java.util.Random;
 
@@ -489,14 +489,13 @@ public class NameGenerator {
         "Zoltan",      "Zora",      "Zoya",        "Zula",        "Zuri",        "Zuriel",     "Zyana",
         "Zylen",
     };
-    private final Random random;
+    private final EasyRandom random;
 
-    public NameGenerator(Random random) {
+    public NameGenerator(EasyRandom random) {
         this.random = random;
     }
 
     public String nextName() {
-        final int index = random.nextInt(NAMES.length);
-        return NAMES[index];
+        return random.nextItem(NAMES);
     }
 }

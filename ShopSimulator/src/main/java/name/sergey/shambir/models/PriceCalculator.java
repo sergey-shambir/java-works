@@ -21,7 +21,7 @@ public class PriceCalculator {
     }
 
     public final BigDecimal getProductBonuses(Product product, BigDecimal cost) {
-        assert(cost.compareTo(BigDecimal.ZERO) > 0);
+        assert cost.compareTo(BigDecimal.ZERO) > 0;
         return cost.multiply(product.getBonusesPercentage()).divide(fullPercentage);
     }
 

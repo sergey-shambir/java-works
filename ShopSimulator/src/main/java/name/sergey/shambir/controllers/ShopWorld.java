@@ -4,6 +4,7 @@ import name.sergey.shambir.models.CashDesk;
 import name.sergey.shambir.models.Customer;
 import name.sergey.shambir.models.PriceCalculator;
 import name.sergey.shambir.models.Supermarket;
+import name.sergey.shambir.random.EasyRandom;
 import name.sergey.shambir.utils.EventsLogger;
 
 import java.math.BigDecimal;
@@ -17,7 +18,7 @@ public class ShopWorld implements ShopEventsListener {
     private static final long SLEEP_MSEC_BETWEEN_STEPS = 500;
     private LocalTime currentTime;
     private EventsLogger logger;
-    private final Random random;
+    private final EasyRandom random;
 
     private Supermarket supermarket;
     private CashDesk cashDesk;
@@ -30,7 +31,7 @@ public class ShopWorld implements ShopEventsListener {
     public ShopWorld() {
         this.currentTime = OPENING_TIME;
         this.logger = new EventsLogger(this.currentTime);
-        this.random = new Random();
+        this.random = new EasyRandom(new Random());
 
         this.supermarket = new Supermarket();
         this.cashDesk = new CashDesk();

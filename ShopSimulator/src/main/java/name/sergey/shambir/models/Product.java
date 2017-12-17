@@ -14,7 +14,7 @@ public class Product {
     private final BigDecimal bonusesPercentage;
 
     public Product(String name, Category category, BigDecimal price, int bonusPercentage) {
-        assert(bonusPercentage >= 0 && bonusPercentage <= 100);
+        assert bonusPercentage >= 0 && bonusPercentage <= 100;
         this.name = name;
         this.category = category;
         this.price = MoneyUtils.normalize(price);

@@ -1,4 +1,4 @@
-package name.sergey.shambir.utils;
+package name.sergey.shambir.random;
 
 import java.util.Random;
 
@@ -7,10 +7,6 @@ public class EasyRandom {
 
     public EasyRandom(Random random) {
         this.random = random;
-    }
-
-    public Random getRandom() {
-        return random;
     }
 
     public final int nextIntInRange(int min, int max) {

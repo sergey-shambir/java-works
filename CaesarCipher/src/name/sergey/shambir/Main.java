@@ -3,7 +3,7 @@ package name.sergey.shambir;
 public class Main {
     public static void printUsage() {
         System.err.print("Usage: CaesarCipher (-e | -d) <key> <text>\n");
-        System.err.print(" where key - non-negative integer cipher offset in alphabet\n");
+        System.err.print(" where key - integer cipher offset in alphabet\n");
     }
 
     public static void main(String[] args) {
@@ -13,7 +13,7 @@ public class Main {
         } else {
             try {
                 final String command = args[0];
-                final int key = Integer.parseUnsignedInt(args[1]);
+                final int key = Integer.parseInt(args[1]);
                 final String text = args[2];
                 if (command.equals("-e")) {
                     final CeasarConverter converter = new CeasarConverter(key);

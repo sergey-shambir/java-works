@@ -31,7 +31,7 @@ public class Customer {
     }
 
     public void addBonuses(BigDecimal diff) {
-        assert(diff.compareTo(BigDecimal.ZERO) >= 0);
+        assert diff.compareTo(BigDecimal.ZERO) >= 0;
         this.bonuses = MoneyUtils.normalize(bonuses.add(diff));
     }
 
@@ -44,8 +44,8 @@ public class Customer {
     // Returns true if customer can pay.
     // Simulates paying money in following order: bonuses first, then netCash,
     // then cashOnCard
-    public boolean simulatePay(BigDecimal price) {
-        return payImpl(price, false);
+    public boolean canPay(BigDecimal price) {
+        return payImpl(price, true);
     }
 
     private String name;
@@ -55,7 +55,7 @@ public class Customer {
     private BigDecimal bonuses;
 
     private boolean payImpl(BigDecimal price, boolean simulate) {
-        assert(price.compareTo(BigDecimal.ZERO) > 0);
+        assert price.compareTo(BigDecimal.ZERO) > 0;
         price = MoneyUtils.normalize(price);
 
         BigDecimal bonuses = this.bonuses;

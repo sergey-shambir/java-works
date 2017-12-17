@@ -1,9 +1,10 @@
 package name.sergey.shambir.utils;
 
+import name.sergey.shambir.random.EasyRandom;
+import name.sergey.shambir.random.EnumRandomGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.Random;
 
 public class EnumRandomGeneratorTests extends Assert {
@@ -16,7 +17,7 @@ public class EnumRandomGeneratorTests extends Assert {
     @Test
     public void testSetWeight() {
         for (long seed : SEEDS) {
-            Random random = new Random(seed);
+            EasyRandom random = new EasyRandom(new Random(seed));
             EnumRandomGenerator<Language> generator = new EnumRandomGenerator<>(random, Language.class);
 
             // By default, weight is 1 and probability is near to 0.(3)

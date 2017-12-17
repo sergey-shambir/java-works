@@ -6,10 +6,11 @@ public class CeasarConverter {
     private final int key;
 
     public CeasarConverter(int key) {
-        if (key >= ENGLISH_ALPHABET_LOWERCASE.length() || key <= -ENGLISH_ALPHABET_LOWERCASE.length()) {
-            throw new RuntimeException("key should be less than alphabet size");
-        }
-        this.key = key;
+        this.key = getWrappedInt(key, ENGLISH_ALPHABET_LOWERCASE.length());
+    }
+
+    private static int getWrappedInt(int value, int max) {
+        return (value + max - (value / max) * max) % max;
     }
 
     /// @param text - text to be encrypted

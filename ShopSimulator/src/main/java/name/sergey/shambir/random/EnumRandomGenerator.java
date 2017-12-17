@@ -1,15 +1,15 @@
-package name.sergey.shambir.utils;
+package name.sergey.shambir.random;
 
 import java.util.Arrays;
 import java.util.Random;
 
 public class EnumRandomGenerator<E> {
-    private final Random random;
+    private final EasyRandom random;
     private final E[] values;
     private double[] weights;
     private double[] weightsPrefixSum;
 
-    public EnumRandomGenerator(Random random, Class<E> enumClass) {
+    public EnumRandomGenerator(EasyRandom random, Class<E> enumClass) {
         this.random = random;
         this.values = enumClass.getEnumConstants();
         assert values.length != 0;
@@ -37,9 +37,9 @@ public class EnumRandomGenerator<E> {
     public E nextValue() {
         lazyInitPrefixSum();
         final double totalWeight = weightsPrefixSum[values.length - 1];
-        final double event = random.nextFloat() * totalWeight;
+        final double event = random.nextDoubleInRange(0, totalWeight);
 
-        // Ignore last value since (event < totalWeight).
+        // Ignore last value since event < totalWeight.
         for (int i = values.length - 2; i >= 0; --i) {
             if (weightsPrefixSum[i] <= event) {
                 return values[i + 1];
