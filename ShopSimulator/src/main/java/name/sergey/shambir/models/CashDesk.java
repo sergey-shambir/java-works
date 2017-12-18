@@ -11,6 +11,10 @@ public class CashDesk {
         this.cash = BigDecimal.ZERO;
     }
 
+    public BigDecimal getCash() {
+        return cash;
+    }
+
     public void addCash(BigDecimal value) {
         this.cash = MoneyUtils.normalize(this.cash.add(value));
     }

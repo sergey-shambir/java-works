@@ -3,13 +3,14 @@ package name.sergey.shambir.models;
 import java.util.HashMap;
 import java.util.Set;
 
-public class Basket {
+public class Basket implements ProductStore {
     private HashMap<Product, Integer> products;
 
     public Basket() {
         this.products = new HashMap<>();
     }
 
+    @Override
     public void putProduct(Product product, int count) {
         if (count <= 0) {
             throw new RuntimeException("product count should be greater than 0");
@@ -21,6 +22,7 @@ public class Basket {
         products.put(product, new Integer(count));
     }
 
+    @Override
     public boolean takeProduct(Product product, int count) {
         if (count <= 0) {
             throw new RuntimeException("product count should be greater than 0");
@@ -38,15 +40,12 @@ public class Basket {
         return false;
     }
 
-    public final boolean isEmpty() {
-        return this.products.isEmpty();
+    @Override
+    public final boolean hasProducts() {
+        return !this.products.isEmpty();
     }
 
-    public final Product[] getUniqueProducts() {
-        final Set<Product> keys = products.keySet();
-        return keys.toArray(new Product[keys.size()]);
-    }
-
+    @Override
     public final int getProductCount(Product product) {
         Integer count = this.products.get(product);
         if (count == null) {
@@ -55,13 +54,10 @@ public class Basket {
         return count.intValue();
     }
 
-    public final String[] getProductNames() {
-        Product[] uniqueProducts = getUniqueProducts();
-        String[] names = new String[uniqueProducts.length];
-        for (int i = 0; i < names.length; ++i) {
-            names[i] = uniqueProducts[i].getName();
-        }
-        return names;
+    @Override
+    public final Product[] getUniqueProducts() {
+        final Set<Product> keys = products.keySet();
+        return keys.toArray(new Product[keys.size()]);
     }
 
     public void clear() {

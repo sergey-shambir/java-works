@@ -7,6 +7,31 @@ import java.math.BigDecimal;
 
 public class CustomerTests extends Assert {
     @Test
+    public void testGetters()
+    {
+        Customer customer = new Customer("Elizabeth", Customer.Category.Child, new BigDecimal(0), new BigDecimal(100));
+        assertEquals(customer.getName(), "Elizabeth");
+        assertEquals(customer.getCategory(), Customer.Category.Child);
+        assertFalse(customer.hasProducts());
+
+        Product beef = new Product("beef", Product.Category.Food, new BigDecimal(100), 0);
+        Product beef2 = new Product("beef", Product.Category.Food, new BigDecimal(100), 0);
+        customer.putProduct(beef, 1);
+        customer.putProduct(beef, 2);
+        assertTrue(customer.hasProducts());
+        assertEquals(customer.getUniqueProducts().length, 1);
+        assertEquals(customer.getUniqueProducts()[0], beef);
+
+        assertTrue(customer.takeProduct(beef2, 1));
+        assertFalse(customer.takeProduct(beef2, 5));
+
+        customer.clearBasket();
+        assertFalse(customer.hasProducts());
+        assertEquals(customer.getUniqueProducts().length, 0);
+        assertFalse(customer.takeProduct(beef2, 1));
+    }
+
+    @Test
     public void testPaymentFromCard() {
         Customer customer = new Customer("John", Customer.Category.Adult, new BigDecimal(3000), new BigDecimal(0));
         assertTrue(customer.canPay(new BigDecimal(3000)));
@@ -44,8 +69,11 @@ public class CustomerTests extends Assert {
 
     @Test
     public void testPaymentFromBonuses() {
-        Customer customer = new Customer("John", Customer.Category.Adult, new BigDecimal(0), new BigDecimal(2000));
+        Customer customer = new Customer("John Doe", Customer.Category.Adult, new BigDecimal(0), new BigDecimal(2000));
         customer.addBonuses(new BigDecimal(1000));
+
+        assertEquals(customer.getCategory(), Customer.Category.Adult);
+        assertEquals(customer.getName(), "John Doe");
 
         assertTrue(customer.canPay(new BigDecimal(3000)));
         assertTrue(customer.canPay(new BigDecimal(2000)));

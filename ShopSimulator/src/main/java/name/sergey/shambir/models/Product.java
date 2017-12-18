@@ -25,6 +25,10 @@ public class Product {
         return this.name;
     }
 
+    public final Category getCategory() {
+        return this.category;
+    }
+
     public final BigDecimal getPrice() {
         return this.price;
     }
@@ -46,6 +50,6 @@ public class Product {
         }
         Product otherProduct = (Product)other;
         return name.equals(otherProduct.name) && category.equals(otherProduct.category) &&
-            price.equals(otherProduct.price) && (bonusesPercentage == otherProduct.bonusesPercentage);
+            price.equals(otherProduct.price) && (bonusesPercentage.equals(otherProduct.bonusesPercentage));
     }
 }

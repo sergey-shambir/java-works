@@ -4,14 +4,12 @@ import name.sergey.shambir.utils.MoneyUtils;
 
 import java.math.BigDecimal;
 
-public class Customer {
+public class Customer extends BasketOwner implements ProductStore {
     public enum Category {
         Child,
         Adult,
         Retired,
     }
-
-    public Basket basket;
 
     public Customer(String name, Category category, BigDecimal cashOnCard, BigDecimal netCash) {
         this.name = name;
@@ -19,7 +17,6 @@ public class Customer {
         this.bonuses = BigDecimal.ZERO;
         this.cashOnCard = MoneyUtils.normalize(cashOnCard);
         this.netCash = MoneyUtils.normalize(netCash);
-        this.basket = new Basket();
     }
 
     public final String getName() {

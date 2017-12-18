@@ -101,7 +101,7 @@ public class SupermarketSystem {
         // and bonuses.
         if (customer.canPay(cost)) {
             supermarket.takeProduct(selectedProduct, selectedCount);
-            customer.basket.putProduct(selectedProduct, selectedCount);
+            customer.putProduct(selectedProduct, selectedCount);
             this.listener.onCustomerPickUpProduct(customer, selectedProduct.getName(), selectedCount);
         }
     }
