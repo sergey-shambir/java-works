@@ -21,7 +21,7 @@ public class EventsLogger {
     }
 
     public void logCustomerPickUpProduct(String name, String productName, Quantity quantity) {
-        System.out.printf("[%s] Customer '%s' picked up %d of %s\n", getTime(), name, quantity.toString(), productName);
+        System.out.printf("[%s] Customer '%s' picked up %s of %s\n", getTime(), name, quantity.toString(), productName);
     }
 
     public void logCustomerStoppedShopping(String name) {
