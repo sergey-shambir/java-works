@@ -104,6 +104,11 @@ public class SupermarketSystem {
 
         final BigDecimal cost = this.priceCalculator.getProductsCost(BigDecimal.ZERO, selectedProduct, selectedQuantity);
 
+        // Customer avoids products with law limitations.
+        if (this.supermarket.hasLimitation(customer, selectedProduct)) {
+            return;
+        }
+
         // Customer selects product if and only if he can pay without discounts
         // and bonuses.
         if (customer.canPay(cost)) {

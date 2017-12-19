@@ -119,4 +119,44 @@ public class QuantityTests extends Assert {
         Quantity b = Quantity.uncountable(101.5);
         a.subtract(b).value();
     }
+
+    @Test(expected = RuntimeException.class)
+    public void testCompareDifferentCategories() {
+        Quantity a = Quantity.uncountable(101);
+        Quantity b = Quantity.countable(101);
+        a.compareTo(b);
+    }
+
+    @Test
+    public void testToString() {
+        Quantity muchUncountable = Quantity.uncountable(101);
+        Quantity manyCountable = Quantity.countable(101);
+        Quantity oneUncountable = Quantity.uncountable(1);
+        Quantity oneCountable = Quantity.countable(1);
+
+        assertEquals("101.000 kg", muchUncountable.toString());
+        assertEquals("101 units", manyCountable.toString());
+        assertEquals("1.000 kg", oneUncountable.toString());
+        assertEquals("1 unit", oneCountable.toString());
+    }
+
+    @Test
+    public void testEquals() {
+        Quantity a = Quantity.uncountable(101);
+        Quantity b = Quantity.uncountable(101);
+        Quantity c = Quantity.uncountable(101.5);
+        Quantity d = Quantity.countable(101);
+        Quantity e = Quantity.countable(0);
+
+        // Common cases
+        assertTrue(a.equals(b));
+        assertFalse(a.equals(c));
+        assertFalse(a.equals(d));
+        assertFalse(a.equals(e));
+
+        // Special cases
+        assertTrue(a.equals(a));
+        assertFalse(a.equals(null));
+        assertFalse(a.equals(new Integer(10)));
+    }
 }

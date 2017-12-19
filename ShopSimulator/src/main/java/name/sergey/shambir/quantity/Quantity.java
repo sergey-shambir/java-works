@@ -60,7 +60,7 @@ public class Quantity implements Comparable<Quantity> {
         String measureUnits;
         switch (this.category) {
             case Countable:
-                measureUnits = (this.value.intValue() == 1) ? "unit" : " units";
+                measureUnits = (this.value.intValue() == 1) ? "unit" : "units";
                 break;
             case Uncountable:
                 measureUnits = "kg";
