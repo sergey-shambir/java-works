@@ -43,22 +43,12 @@ public class CashDeskSystem {
         BigDecimal cost = this.priceCalculator.getCustomerBasketCost(customer);
         BigDecimal bonuses = this.priceCalculator.getCustomerBasketBonuses(customer);
         if (customer.pay(cost)) {
-            String[] productNames = getStoredProductNames(customer);
             cashDesk.addCash(cost);
+            listener.onCustomerPaid(customer, customer.getUniqueProducts(), cost, bonuses);
             customer.clearBasket();
             customer.addBonuses(bonuses);
-            listener.onCustomerPaid(customer, productNames, cost, bonuses);
         } else {
             listener.onCustomerPaymentFailed(customer, cost);
         }
-    }
-
-    private final String[] getStoredProductNames(ProductStore store) {
-        Product[] uniqueProducts = store.getUniqueProducts();
-        String[] names = new String[uniqueProducts.length];
-        for (int i = 0; i < names.length; ++i) {
-            names[i] = uniqueProducts[i].getName();
-        }
-        return names;
     }
 }

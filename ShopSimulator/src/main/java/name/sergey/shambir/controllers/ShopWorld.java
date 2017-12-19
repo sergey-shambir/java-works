@@ -1,9 +1,6 @@
 package name.sergey.shambir.controllers;
 
-import name.sergey.shambir.models.CashDesk;
-import name.sergey.shambir.models.Customer;
-import name.sergey.shambir.models.PriceCalculator;
-import name.sergey.shambir.models.Supermarket;
+import name.sergey.shambir.models.*;
 import name.sergey.shambir.quantity.Quantity;
 import name.sergey.shambir.random.EasyRandom;
 import name.sergey.shambir.utils.EventsLogger;
@@ -16,7 +13,7 @@ public class ShopWorld implements ShopEventsListener {
     private static final LocalTime OPENING_TIME = LocalTime.of(8, 0, 0);
     private static final LocalTime CLOSING_TIME = LocalTime.of(22, 0, 0);
     private static final int MINUTES_PER_STEP = 5;
-    private static final long SLEEP_MSEC_BETWEEN_STEPS = 500;
+    private static final long SLEEP_MSEC_BETWEEN_STEPS = 100;
     private LocalTime currentTime;
     private EventsLogger logger;
     private final EasyRandom random;
@@ -24,6 +21,7 @@ public class ShopWorld implements ShopEventsListener {
     private Supermarket supermarket;
     private CashDesk cashDesk;
     private PriceCalculator priceCalculator;
+    private Report report;
 
     private CustomerEmitter customerEmitter;
     private SupermarketSystem supermarketSystem;
@@ -37,6 +35,7 @@ public class ShopWorld implements ShopEventsListener {
         this.supermarket = new Supermarket();
         this.cashDesk = new CashDesk();
         this.priceCalculator = new PriceCalculator(this.supermarket);
+        this.report = new Report();
 
         this.cashDeskSystem = new CashDeskSystem(this.cashDesk, this.priceCalculator, this);
         this.supermarketSystem = new SupermarketSystem(this.supermarket, this.priceCalculator, this.random, this);
@@ -49,6 +48,7 @@ public class ShopWorld implements ShopEventsListener {
             currentTime = currentTime.plusMinutes(MINUTES_PER_STEP);
             sleep();
         }
+        printReport();
     }
 
     private void update() {
@@ -64,6 +64,10 @@ public class ShopWorld implements ShopEventsListener {
         } catch (InterruptedException ex) {
             // ignore interrupt.
         }
+    }
+
+    private void printReport() {
+        System.out.println(this.report.toString());
     }
 
     @Override
@@ -84,8 +88,12 @@ public class ShopWorld implements ShopEventsListener {
     }
 
     @Override
-    public void onCustomerPaid(Customer customer, String[] productsNames, BigDecimal price, BigDecimal bonuses) {
-        logger.logCustomerPaid(customer.getName(), productsNames, price, bonuses);
+    public void onCustomerPaid(Customer customer, Product[] uniqueProducts, BigDecimal price, BigDecimal bonuses) {
+        logger.logCustomerPaid(customer.getName(), getStoredProductNames(uniqueProducts), price, bonuses);
+        for (Product product : uniqueProducts) {
+            report.addSoldProduct(product, customer.getProductQuantity(product));
+        }
+        report.addCashFromCustomer(price, customer);
     }
 
     @Override
@@ -100,5 +108,13 @@ public class ShopWorld implements ShopEventsListener {
 
     private final int getCustomerCount() {
         return supermarketSystem.getCustomersCount() + cashDeskSystem.getCustomersCount();
+    }
+
+    private final String[] getStoredProductNames(Product[] uniqueProducts) {
+        String[] names = new String[uniqueProducts.length];
+        for (int i = 0; i < names.length; ++i) {
+            names[i] = uniqueProducts[i].getName();
+        }
+        return names;
     }
 }

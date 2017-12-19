@@ -1,9 +1,6 @@
 package name.sergey.shambir.controllers;
 
-import name.sergey.shambir.models.Customer;
-import name.sergey.shambir.models.PriceCalculator;
-import name.sergey.shambir.models.Product;
-import name.sergey.shambir.models.Supermarket;
+import name.sergey.shambir.models.*;
 import name.sergey.shambir.quantity.Quantity;
 import name.sergey.shambir.quantity.QuantityGenerator;
 import name.sergey.shambir.random.EasyRandom;
