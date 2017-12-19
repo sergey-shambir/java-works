@@ -1,6 +1,6 @@
 package name.sergey.shambir.models;
 
-import name.sergey.shambir.utils.MoneyUtils;
+import name.sergey.shambir.utils.DecimalUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,6 +18,6 @@ public class CashDeskTests extends Assert {
             desk.addCash(new BigDecimal(payments[i]));
             sum += payments[i];
         }
-        assertEquals(desk.getCash(), MoneyUtils.toCurrency(sum));
+        assertEquals(desk.getCash(), DecimalUtils.toCurrency(sum));
     }
 }

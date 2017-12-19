@@ -4,6 +4,7 @@ import name.sergey.shambir.models.CashDesk;
 import name.sergey.shambir.models.Customer;
 import name.sergey.shambir.models.PriceCalculator;
 import name.sergey.shambir.models.Supermarket;
+import name.sergey.shambir.quantity.Quantity;
 import name.sergey.shambir.random.EasyRandom;
 import name.sergey.shambir.utils.EventsLogger;
 
@@ -72,8 +73,8 @@ public class ShopWorld implements ShopEventsListener {
     }
 
     @Override
-    public void onCustomerPickUpProduct(Customer customer, String productName, int count) {
-        logger.logCustomerPickUpProduct(customer.getName(), productName, count);
+    public void onCustomerPickUpProduct(Customer customer, String productName, Quantity quantity) {
+        logger.logCustomerPickUpProduct(customer.getName(), productName, quantity);
     }
 
     @Override

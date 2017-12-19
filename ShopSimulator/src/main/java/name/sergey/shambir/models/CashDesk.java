@@ -1,6 +1,6 @@
 package name.sergey.shambir.models;
 
-import name.sergey.shambir.utils.MoneyUtils;
+import name.sergey.shambir.utils.DecimalUtils;
 
 import java.math.BigDecimal;
 
@@ -16,6 +16,6 @@ public class CashDesk {
     }
 
     public void addCash(BigDecimal value) {
-        this.cash = MoneyUtils.normalize(this.cash.add(value));
+        this.cash = DecimalUtils.normalizeCurrency(this.cash.add(value));
     }
 }

@@ -1,9 +1,7 @@
 package name.sergey.shambir.random;
 
 import name.sergey.shambir.models.Product;
-
-import java.math.BigDecimal;
-import java.util.Random;
+import name.sergey.shambir.quantity.QuantityCategory;
 
 public class ProductGenerator {
     private static final String[] FOOD_NAMES = {"milk",   "chocolate", "cocoa", "coffee", "meal",   "tomato",
@@ -20,19 +18,22 @@ public class ProductGenerator {
 
     private final EasyRandom random;
     private final EnumRandomGenerator<Product.Category> categoryGenerator;
+    private final EnumRandomGenerator<QuantityCategory> quantityCategoryGenerator;
 
     public ProductGenerator(EasyRandom random) {
         this.random = random;
         this.categoryGenerator = new EnumRandomGenerator<>(random, Product.Category.class);
+        this.quantityCategoryGenerator = new EnumRandomGenerator<>(random, QuantityCategory.class);
     }
 
     public Product nextProduct() {
-        final Product.Category category = categoryGenerator.nextValue();
+        final Product.Category category = this.categoryGenerator.nextValue();
+        final QuantityCategory quantityCategory = this.quantityCategoryGenerator.nextValue();
         final String name = nextProductName(category);
-        final double price = random.nextDoubleInRange(MIN_PRICE, MAX_PRICE);
-        final int bonusPercentage = random.nextIntInRange(0, MAX_BONUS_VALUE);
+        final double price = this.random.nextDoubleInRange(MIN_PRICE, MAX_PRICE);
+        final double bonusPercentage = this.random.nextIntInRange(0, MAX_BONUS_VALUE);
 
-        return new Product(name, category, new BigDecimal(price), bonusPercentage);
+        return new Product(name, category, quantityCategory, price, bonusPercentage);
     }
 
     private String nextProductName(Product.Category category) {

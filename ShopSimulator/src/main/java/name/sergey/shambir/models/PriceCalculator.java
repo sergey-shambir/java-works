@@ -1,6 +1,7 @@
 package name.sergey.shambir.models;
 
-import name.sergey.shambir.utils.MoneyUtils;
+import name.sergey.shambir.quantity.Quantity;
+import name.sergey.shambir.utils.DecimalUtils;
 
 import java.math.BigDecimal;
 
@@ -12,22 +13,22 @@ public class PriceCalculator {
         this.discountInfo = discountInfo;
     }
 
-    public final BigDecimal getProductsCost(BigDecimal discountPercentage, Product product, int productCount) {
-        if (productCount <= 0) {
+    public final BigDecimal getProductsCost(BigDecimal discountPercentage, Product product, Quantity quantity) {
+        if (quantity.isZero()) {
             return BigDecimal.ZERO;
         }
 
         // Formulae: productPrice * productCount * ((fullPercentage - discountPercentage) / fullPercentage);
         final BigDecimal pricePercentage = fullPercentage.subtract(discountPercentage);
         final BigDecimal priceRatio = pricePercentage.divide(fullPercentage);
-        return MoneyUtils.normalize(product.getPrice().multiply(new BigDecimal(productCount)).multiply(priceRatio));
+        return DecimalUtils.normalizeCurrency(product.getPrice().multiply(quantity.value()).multiply(priceRatio));
     }
 
     public final BigDecimal getProductBonuses(Product product, BigDecimal cost) {
         if (cost.compareTo(BigDecimal.ZERO) <= 0) {
             return BigDecimal.ZERO;
         }
-        return MoneyUtils.normalize(cost.multiply(product.getBonusesPercentage()).divide(fullPercentage));
+        return DecimalUtils.normalizeCurrency(cost.multiply(product.getBonusesPercentage()).divide(fullPercentage));
     }
 
     public final BigDecimal getCustomerBasketCost(Customer customer) {
@@ -44,8 +45,8 @@ public class PriceCalculator {
         BigDecimal price = BigDecimal.ZERO;
         Product[] products = store.getUniqueProducts();
         for (Product product : products) {
-            final int productCount = store.getProductCount(product);
-            price = price.add(getProductsCost(discountPercentage, product, productCount));
+            final Quantity quantity = store.getProductQuantity(product);
+            price = price.add(getProductsCost(discountPercentage, product, quantity));
         }
         return price;
     }
@@ -54,8 +55,8 @@ public class PriceCalculator {
         BigDecimal bonuses = BigDecimal.ZERO;
         Product[] products = store.getUniqueProducts();
         for (Product product : products) {
-            final int productCount = store.getProductCount(product);
-            final BigDecimal price = getProductsCost(discountPercentage, product, productCount);
+            final Quantity quantity = store.getProductQuantity(product);
+            final BigDecimal price = getProductsCost(discountPercentage, product, quantity);
             bonuses = bonuses.add(getProductBonuses(product, price));
         }
         return bonuses;

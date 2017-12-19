@@ -1,5 +1,7 @@
 package name.sergey.shambir.models;
 
+import name.sergey.shambir.quantity.Quantity;
+import name.sergey.shambir.quantity.QuantityCategory;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,21 +16,21 @@ public class CustomerTests extends Assert {
         assertEquals(customer.getCategory(), Customer.Category.Child);
         assertFalse(customer.hasProducts());
 
-        Product beef = new Product("beef", Product.Category.Food, new BigDecimal(100), 0);
-        Product beef2 = new Product("beef", Product.Category.Food, new BigDecimal(100), 0);
-        customer.putProduct(beef, 1);
-        customer.putProduct(beef, 2);
+        Product beef = new Product("beef", Product.Category.Food, QuantityCategory.Uncountable, 100, 0);
+        Product beef2 = new Product("beef", Product.Category.Food, QuantityCategory.Uncountable, 100, 0);
+        customer.putProduct(beef, Quantity.uncountable(1));
+        customer.putProduct(beef, Quantity.uncountable(2.5));
         assertTrue(customer.hasProducts());
         assertEquals(customer.getUniqueProducts().length, 1);
         assertEquals(customer.getUniqueProducts()[0], beef);
 
-        assertTrue(customer.takeProduct(beef2, 1));
-        assertFalse(customer.takeProduct(beef2, 5));
+        assertTrue(customer.takeProduct(beef2, Quantity.uncountable(1.5)));
+        assertFalse(customer.takeProduct(beef2, Quantity.uncountable(4.5)));
 
         customer.clearBasket();
         assertFalse(customer.hasProducts());
         assertEquals(customer.getUniqueProducts().length, 0);
-        assertFalse(customer.takeProduct(beef2, 1));
+        assertFalse(customer.takeProduct(beef2, Quantity.uncountable(1.5)));
     }
 
     @Test

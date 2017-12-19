@@ -1,9 +1,11 @@
 package name.sergey.shambir.models;
 
+import name.sergey.shambir.quantity.Quantity;
+
 public interface ProductStore {
-    int getProductCount(Product product);
-    void putProduct(Product product, int count);
-    boolean takeProduct(Product product, int count);
+    Quantity getProductQuantity(Product product);
+    void putProduct(Product product, Quantity count);
+    boolean takeProduct(Product product, Quantity count);
     boolean hasProducts();
     Product[] getUniqueProducts();
 }

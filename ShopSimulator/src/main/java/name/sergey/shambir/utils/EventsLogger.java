@@ -1,5 +1,7 @@
 package name.sergey.shambir.utils;
 
+import name.sergey.shambir.quantity.Quantity;
+
 import java.math.BigDecimal;
 import java.time.LocalTime;
 
@@ -18,9 +20,8 @@ public class EventsLogger {
         System.out.printf("[%s] New customer '%s' arrived, there are %d customers\n", getTime(), name, customerCount);
     }
 
-    public void logCustomerPickUpProduct(String name, String productName, int count) {
-        String units = (count == 1) ? "unit" : "units";
-        System.out.printf("[%s] Customer '%s' picked up %d %s of %s\n", getTime(), name, count, units, productName);
+    public void logCustomerPickUpProduct(String name, String productName, Quantity quantity) {
+        System.out.printf("[%s] Customer '%s' picked up %d of %s\n", getTime(), name, quantity.toString(), productName);
     }
 
     public void logCustomerStoppedShopping(String name) {

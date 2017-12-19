@@ -1,17 +1,15 @@
 package name.sergey.shambir.models;
 
-import name.sergey.shambir.utils.MoneyUtils;
+import name.sergey.shambir.utils.DecimalUtils;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.math.BigDecimal;
 
 public class SupermarketTests extends Assert {
     @Test
     public void testProperties() {
-        Customer adult = new Customer("Ann", Customer.Category.Adult, MoneyUtils.toCurrency(100), MoneyUtils.toCurrency(10));
-        Customer retired = new Customer("George", Customer.Category.Retired, MoneyUtils.toCurrency(200), MoneyUtils.toCurrency(0));
-        Customer child = new Customer("Billy", Customer.Category.Child, MoneyUtils.toCurrency(0), MoneyUtils.toCurrency(50));
+        Customer adult = new Customer("Ann", Customer.Category.Adult, DecimalUtils.toCurrency(100), DecimalUtils.toCurrency(10));
+        Customer retired = new Customer("George", Customer.Category.Retired, DecimalUtils.toCurrency(200), DecimalUtils.toCurrency(0));
+        Customer child = new Customer("Billy", Customer.Category.Child, DecimalUtils.toCurrency(0), DecimalUtils.toCurrency(50));
 
         Supermarket supermarket = new Supermarket();
         assertEquals(supermarket.getDiscountPercentage(adult), 0);

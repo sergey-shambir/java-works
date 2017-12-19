@@ -1,5 +1,7 @@
 package name.sergey.shambir.models;
 
+import name.sergey.shambir.quantity.Quantity;
+
 public class BasketOwner implements ProductStore {
     private Basket basket;
 
@@ -9,19 +11,19 @@ public class BasketOwner implements ProductStore {
     }
 
     @Override
-    public int getProductCount(Product product) {
-        return basket.getProductCount(product);
+    public Quantity getProductQuantity(Product product) {
+        return basket.getProductQuantity(product);
     }
 
     @Override
-    public void putProduct(Product product, int count)
+    public void putProduct(Product product, Quantity quantity)
     {
-        basket.putProduct(product, count);
+        basket.putProduct(product, quantity);
     }
 
     @Override
-    public boolean takeProduct(Product product, int count) {
-        return basket.takeProduct(product, count);
+    public boolean takeProduct(Product product, Quantity quantity) {
+        return basket.takeProduct(product, quantity);
     }
 
     @Override

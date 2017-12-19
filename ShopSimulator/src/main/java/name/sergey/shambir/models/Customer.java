@@ -1,6 +1,6 @@
 package name.sergey.shambir.models;
 
-import name.sergey.shambir.utils.MoneyUtils;
+import name.sergey.shambir.utils.DecimalUtils;
 
 import java.math.BigDecimal;
 
@@ -15,8 +15,8 @@ public class Customer extends BasketOwner implements ProductStore {
         this.name = name;
         this.category = category;
         this.bonuses = BigDecimal.ZERO;
-        this.cashOnCard = MoneyUtils.normalize(cashOnCard);
-        this.netCash = MoneyUtils.normalize(netCash);
+        this.cashOnCard = DecimalUtils.normalizeCurrency(cashOnCard);
+        this.netCash = DecimalUtils.normalizeCurrency(netCash);
     }
 
     public final String getName() {
@@ -29,7 +29,7 @@ public class Customer extends BasketOwner implements ProductStore {
 
     public void addBonuses(BigDecimal diff) {
         assert diff.compareTo(BigDecimal.ZERO) >= 0;
-        this.bonuses = MoneyUtils.normalize(bonuses.add(diff));
+        this.bonuses = DecimalUtils.normalizeCurrency(bonuses.add(diff));
     }
 
     // Pays money in following order: bonuses first, then netCash, then
@@ -53,7 +53,7 @@ public class Customer extends BasketOwner implements ProductStore {
 
     private boolean payImpl(BigDecimal price, boolean simulate) {
         assert price.compareTo(BigDecimal.ZERO) > 0;
-        price = MoneyUtils.normalize(price);
+        price = DecimalUtils.normalizeCurrency(price);
 
         BigDecimal bonuses = this.bonuses;
         BigDecimal netCash = this.netCash;
@@ -79,9 +79,9 @@ public class Customer extends BasketOwner implements ProductStore {
         }
 
         if (succeed && !simulate) {
-            this.bonuses = MoneyUtils.normalize(bonuses);
-            this.netCash = MoneyUtils.normalize(netCash);
-            this.cashOnCard = MoneyUtils.normalize(cashOnCard);
+            this.bonuses = DecimalUtils.normalizeCurrency(bonuses);
+            this.netCash = DecimalUtils.normalizeCurrency(netCash);
+            this.cashOnCard = DecimalUtils.normalizeCurrency(cashOnCard);
         }
 
         return succeed;

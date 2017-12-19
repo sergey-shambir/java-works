@@ -1,39 +1,35 @@
 package name.sergey.shambir.models;
 
+import name.sergey.shambir.quantity.Quantity;
+
 import java.util.HashMap;
 import java.util.Set;
 
 public class Basket implements ProductStore {
-    private HashMap<Product, Integer> products;
+    private HashMap<Product, Quantity> products;
 
     public Basket() {
         this.products = new HashMap<>();
     }
 
     @Override
-    public void putProduct(Product product, int count) {
-        if (count <= 0) {
-            throw new RuntimeException("product count should be greater than 0");
+    public void putProduct(Product product, Quantity quantity) {
+        Quantity currentQuantity = products.get(product);
+        if (currentQuantity != null) {
+            quantity = quantity.add(currentQuantity);
         }
-        Integer countValue = products.get(product);
-        if (countValue != null) {
-            count += countValue.intValue();
-        }
-        products.put(product, new Integer(count));
+        products.put(product, quantity);
     }
 
     @Override
-    public boolean takeProduct(Product product, int count) {
-        if (count <= 0) {
-            throw new RuntimeException("product count should be greater than 0");
-        }
-        Integer existingCount = products.get(product);
-        if (existingCount != null && existingCount.intValue() >= count) {
-            final int countLeft = existingCount.intValue() - count;
-            if (countLeft == 0) {
+    public boolean takeProduct(Product product, Quantity quantity) {
+        Quantity currentQuantity = products.get(product);
+        if (currentQuantity != null && currentQuantity.compareTo(quantity) >= 0) {
+            final Quantity quantityLeft = currentQuantity.subtract(quantity);
+            if (quantityLeft.isZero()) {
                 products.remove(product);
             } else {
-                products.put(product, countLeft);
+                products.put(product, quantityLeft);
             }
             return true;
         }
@@ -46,12 +42,12 @@ public class Basket implements ProductStore {
     }
 
     @Override
-    public final int getProductCount(Product product) {
-        Integer count = this.products.get(product);
-        if (count == null) {
-            return 0;
+    public final Quantity getProductQuantity(Product product) {
+        Quantity quantity = this.products.get(product);
+        if (quantity == null) {
+            return new Quantity(product.getQuantityCategory());
         }
-        return count.intValue();
+        return quantity;
     }
 
     @Override
