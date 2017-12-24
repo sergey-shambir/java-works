@@ -10,9 +10,12 @@ import java.math.BigDecimal;
 public class SupermarketTests extends Assert {
     @Test
     public void testProperties() {
-        Customer adult = new Customer("Ann", Customer.Category.Adult, DecimalUtils.toCurrency(100), DecimalUtils.toCurrency(10));
-        Customer retired = new Customer("George", Customer.Category.Retired, DecimalUtils.toCurrency(200), DecimalUtils.toCurrency(0));
-        Customer child = new Customer("Billy", Customer.Category.Child, DecimalUtils.toCurrency(0), DecimalUtils.toCurrency(50));
+        Customer adult =
+            new Customer("Ann", Customer.Category.Adult, DecimalUtils.toCurrency(100), DecimalUtils.toCurrency(10));
+        Customer retired =
+            new Customer("George", Customer.Category.Retired, DecimalUtils.toCurrency(200), DecimalUtils.toCurrency(0));
+        Customer child =
+            new Customer("Billy", Customer.Category.Child, DecimalUtils.toCurrency(0), DecimalUtils.toCurrency(50));
 
         Supermarket supermarket = new Supermarket();
         assertEquals(supermarket.getDiscountPercentage(adult), 0);
@@ -44,7 +47,8 @@ public class SupermarketTests extends Assert {
     public void testDefaultAgeLimitations() {
         Supermarket supermarket = new Supermarket();
         Customer adult = new Customer("John Doe", Customer.Category.Adult, new BigDecimal(300), new BigDecimal(100));
-        Customer retired = new Customer("Christopher Columbus", Customer.Category.Retired, new BigDecimal(200), new BigDecimal(100));
+        Customer retired =
+            new Customer("Christopher Columbus", Customer.Category.Retired, new BigDecimal(200), new BigDecimal(100));
         Customer child = new Customer("Billy", Customer.Category.Child, new BigDecimal(0), new BigDecimal(50));
         Product vine = new Product("Vine", Product.Category.Alcohol, QuantityCategory.Countable, 10, 10);
         Product milk = new Product("Milk", Product.Category.Food, QuantityCategory.Countable, 10, 10);

@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
+// TODO: fix running tests from Maven.
+
 public class BasketTests extends Assert {
     private final Product coffee;
     private final Product milk;
@@ -60,7 +62,6 @@ public class BasketTests extends Assert {
         Basket basket = new Basket();
         basket.putProduct(this.coffee, Quantity.countable(3));
         basket.putProduct(this.coffee, Quantity.uncountable(3));
-
     }
 
     @Test

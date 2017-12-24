@@ -44,20 +44,18 @@ public class Report {
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        builder
-            .append("---------- cash desk report -------------\n")
+        builder.append("---------- cash desk report -------------\n")
             .append("Total cash: " + totalCash.toString() + "\n")
             .append("-----------------------------------------\n");
 
         for (Customer.Category category : cashPerCategory.keySet()) {
-            builder.append("Cash from " + getCategoryPluralForm(category) + ": "
-                    + cashPerCategory.get(category).toString().toLowerCase() + "\n");
+            builder.append("Cash from " + getCategoryPluralForm(category) + ": " +
+                           cashPerCategory.get(category).toString().toLowerCase() + "\n");
         }
         builder.append("-----------------------------------------\n");
 
         for (Product product : soldProductQuantities.keySet()) {
-            builder.append(product.getName() + " quantity: "
-                    + soldProductQuantities.get(product).toString() + "\n");
+            builder.append(product.getName() + " quantity: " + soldProductQuantities.get(product).toString() + "\n");
         }
 
         return builder.toString();

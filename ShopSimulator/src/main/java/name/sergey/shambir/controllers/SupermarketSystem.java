@@ -80,7 +80,8 @@ public class SupermarketSystem {
         QuantityGenerator quantityGenerator = new QuantityGenerator(this.random);
         for (int i = 0; i < productCount; ++i) {
             Product product = productGenerator.nextProduct();
-            Quantity quantity = quantityGenerator.nextQuantityInRange(MIN_PRODUCT_QUANTITY_VALUE, MAX_PRODUCT_QUANTITY_VALUE);
+            Quantity quantity =
+                quantityGenerator.nextQuantityInRange(MIN_PRODUCT_QUANTITY_VALUE, MAX_PRODUCT_QUANTITY_VALUE);
             supermarket.putProduct(product, quantity);
         }
     }
@@ -99,7 +100,8 @@ public class SupermarketSystem {
         final Quantity maxQuantity = supermarket.getProductQuantity(selectedProduct);
         final Quantity selectedQuantity = this.quantityGenerator.nextQuantity(maxQuantity);
 
-        final BigDecimal cost = this.priceCalculator.getProductsCost(BigDecimal.ZERO, selectedProduct, selectedQuantity);
+        final BigDecimal cost =
+            this.priceCalculator.getProductsCost(BigDecimal.ZERO, selectedProduct, selectedQuantity);
 
         // Customer avoids products with law limitations.
         if (this.supermarket.hasLimitation(customer, selectedProduct)) {

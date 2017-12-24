@@ -5,8 +5,7 @@ import name.sergey.shambir.quantity.Quantity;
 public class BasketOwner implements ProductStore {
     private Basket basket;
 
-    public BasketOwner()
-    {
+    public BasketOwner() {
         this.basket = new Basket();
     }
 
@@ -16,8 +15,7 @@ public class BasketOwner implements ProductStore {
     }
 
     @Override
-    public void putProduct(Product product, Quantity quantity)
-    {
+    public void putProduct(Product product, Quantity quantity) {
         basket.putProduct(product, quantity);
     }
 

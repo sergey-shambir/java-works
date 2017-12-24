@@ -17,8 +17,8 @@ public class Product {
     private final BigDecimal price;
     private final BigDecimal bonusesPercentage;
 
-    public Product(String name, Category category, QuantityCategory quantityCategory,
-                   double price, double bonusPercentage) {
+    public Product(String name, Category category, QuantityCategory quantityCategory, double price,
+                   double bonusPercentage) {
         assert bonusPercentage >= 0 && bonusPercentage <= 100;
         assert price >= 0;
         this.name = name;
@@ -28,8 +28,8 @@ public class Product {
         this.bonusesPercentage = DecimalUtils.toCurrency(bonusPercentage);
     }
 
-    public Product(String name, Category category, QuantityCategory quantityCategory,
-                   BigDecimal price, BigDecimal bonusPercentage) {
+    public Product(String name, Category category, QuantityCategory quantityCategory, BigDecimal price,
+                   BigDecimal bonusPercentage) {
         assert price.compareTo(BigDecimal.ZERO) >= 0;
         assert bonusPercentage.compareTo(BigDecimal.ZERO) >= 0;
         assert bonusPercentage.compareTo(FULL_PERCENTAGE) <= 0;
@@ -72,10 +72,8 @@ public class Product {
             return false;
         }
         Product otherProduct = (Product)other;
-        return name.equals(otherProduct.name)
-                && category.equals(otherProduct.category)
-                && quantityCategory.equals(otherProduct.quantityCategory)
-                && price.equals(otherProduct.price)
-                && (bonusesPercentage.equals(otherProduct.bonusesPercentage));
+        return name.equals(otherProduct.name) && category.equals(otherProduct.category) &&
+            quantityCategory.equals(otherProduct.quantityCategory) && price.equals(otherProduct.price) &&
+            (bonusesPercentage.equals(otherProduct.bonusesPercentage));
     }
 }

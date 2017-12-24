@@ -8,8 +8,7 @@ import java.math.BigDecimal;
 
 public class CashDeskTests extends Assert {
     @Test
-    public void testCashStorage()
-    {
+    public void testCashStorage() {
         int[] payments = {10, 99, 20, 11, 8};
 
         CashDesk desk = new CashDesk();

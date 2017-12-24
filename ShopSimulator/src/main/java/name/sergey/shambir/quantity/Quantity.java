@@ -4,6 +4,7 @@ import name.sergey.shambir.utils.DecimalUtils;
 
 import java.math.BigDecimal;
 
+// TODO: throw IllegalArgumentException instead of RuntimeException
 public class Quantity implements Comparable<Quantity> {
     private final QuantityCategory category;
     private final BigDecimal value;
@@ -43,8 +44,7 @@ public class Quantity implements Comparable<Quantity> {
             return false;
         }
         Quantity otherQuantity = (Quantity)other;
-        return (this.category.equals(otherQuantity.category))
-                && (this.value.equals(otherQuantity.value));
+        return (this.category.equals(otherQuantity.category)) && (this.value.equals(otherQuantity.value));
     }
 
     @Override

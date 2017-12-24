@@ -1,6 +1,3 @@
 package name.sergey.shambir.quantity;
 
-public enum QuantityCategory {
-    Countable,
-    Uncountable
-}
+public enum QuantityCategory { Countable, Uncountable }

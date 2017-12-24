@@ -16,16 +16,14 @@ public class PriceCalculatorTests extends Assert {
     private Product milk;
 
     @Before
-    public void setup()
-    {
+    public void setup() {
         this.discountInfo = new MockDiscountInfo();
         this.potato = new Product("potato", Product.Category.Food, QuantityCategory.Uncountable, 10, 10);
         this.milk = new Product("milk", Product.Category.Food, QuantityCategory.Uncountable, 5, 0);
     }
 
     @Test
-    public void testGetProductCost()
-    {
+    public void testGetProductCost() {
         PriceCalculator calc = new PriceCalculator(this.discountInfo);
         this.discountInfo.discountPercentage = 11;
         BigDecimal cost = calc.getProductsCost(BigDecimal.ZERO, this.milk, Quantity.uncountable(7));
@@ -35,12 +33,11 @@ public class PriceCalculatorTests extends Assert {
         assertEquals(DecimalUtils.toCurrency(25), cost);
 
         cost = calc.getProductsCost(new BigDecimal(50), this.potato, Quantity.uncountable(0));
-        assertEquals( BigDecimal.ZERO, cost);
+        assertEquals(BigDecimal.ZERO, cost);
     }
 
     @Test
-    public void testGetBonuses()
-    {
+    public void testGetBonuses() {
         PriceCalculator calc = new PriceCalculator(this.discountInfo);
         this.discountInfo.discountPercentage = 10;
 
@@ -55,8 +52,7 @@ public class PriceCalculatorTests extends Assert {
     }
 
     @Test
-    public void testGetCustomerBasketCost()
-    {
+    public void testGetCustomerBasketCost() {
         final int expectedDiscount = 20;
         final BigDecimal expectedDiscountDecimal = new BigDecimal(expectedDiscount);
         this.discountInfo.discountPercentage = expectedDiscount;

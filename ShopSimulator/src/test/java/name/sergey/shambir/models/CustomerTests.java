@@ -9,8 +9,7 @@ import java.math.BigDecimal;
 
 public class CustomerTests extends Assert {
     @Test
-    public void testGetters()
-    {
+    public void testGetters() {
         Customer customer = new Customer("Elizabeth", Customer.Category.Child, new BigDecimal(0), new BigDecimal(100));
         assertEquals(customer.getName(), "Elizabeth");
         assertEquals(customer.getCategory(), Customer.Category.Child);

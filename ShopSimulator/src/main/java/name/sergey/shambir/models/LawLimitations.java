@@ -22,7 +22,8 @@ public class LawLimitations {
     public boolean hasLimitation(Customer customer, Product product) {
         for (int i = 0; i < ageLimitations.size(); ++i) {
             AgeLimitation limitation = ageLimitations.get(i);
-            if (customer.getCategory() == limitation.customerCategory && product.getCategory() == limitation.productCategory) {
+            if (customer.getCategory() == limitation.customerCategory &&
+                product.getCategory() == limitation.productCategory) {
                 return true;
             }
         }

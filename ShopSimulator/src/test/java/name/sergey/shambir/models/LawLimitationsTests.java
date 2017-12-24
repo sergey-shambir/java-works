@@ -11,7 +11,8 @@ public class LawLimitationsTests extends Assert {
     public void testAgeLimitations() {
         LawLimitations limitations = new LawLimitations();
         Customer adult = new Customer("John Doe", Customer.Category.Adult, new BigDecimal(300), new BigDecimal(100));
-        Customer retired = new Customer("Christopher Columbus", Customer.Category.Retired, new BigDecimal(200), new BigDecimal(100));
+        Customer retired =
+            new Customer("Christopher Columbus", Customer.Category.Retired, new BigDecimal(200), new BigDecimal(100));
         Customer child = new Customer("Billy", Customer.Category.Child, new BigDecimal(0), new BigDecimal(50));
         Product vine = new Product("Vine", Product.Category.Alcohol, QuantityCategory.Countable, 10, 10);
         Product milk = new Product("Milk", Product.Category.Food, QuantityCategory.Countable, 10, 10);
