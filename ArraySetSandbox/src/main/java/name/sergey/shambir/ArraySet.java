@@ -5,8 +5,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 class ArraySet<E extends Comparable<E>> extends AbstractSet<E> implements NavigableSet<E> {
-    private class ArraySetData
-    {
+    private class ArraySetData {
         private ArrayList<E> items;
         private Comparator<? super E> comparator;
     }
@@ -21,11 +20,10 @@ class ArraySet<E extends Comparable<E>> extends AbstractSet<E> implements Naviga
         private final int endIndex;
         private final int step;
 
-        private SetIterator(ArrayList<E> items, int from, int to)
-        {
+        private SetIterator(ArrayList<E> items, int from, int to) {
             this.items = items;
             this.fromIndex = from;
-            this.step = from > to ? -1 : 1;
+            this.step = (from > to && to != -1) ? -1 : 1;
             this.endIndex = to + this.step;
         }
 
@@ -36,8 +34,7 @@ class ArraySet<E extends Comparable<E>> extends AbstractSet<E> implements Naviga
 
         @Override
         public E next() {
-            if (hasNext())
-            {
+            if (hasNext()) {
                 E result = this.items.get(this.fromIndex);
                 this.fromIndex += this.step;
                 return result;
@@ -63,7 +60,12 @@ class ArraySet<E extends Comparable<E>> extends AbstractSet<E> implements Naviga
     }
 
     private void initData(ArrayList<E> items, Comparator<? super E> comparator) {
-        this.data.items = items.stream().sorted().distinct().collect(Collectors.toCollection(ArrayList::new));
+        if (comparator != null) {
+            this.data.items =
+                items.stream().sorted(comparator).distinct().collect(Collectors.toCollection(ArrayList::new));
+        } else {
+            this.data.items = items.stream().sorted().distinct().collect(Collectors.toCollection(ArrayList::new));
+        }
         this.data.comparator = comparator;
         this.fromIndex = 0;
         this.toIndex = this.data.items.size() - 1;
@@ -132,29 +134,29 @@ class ArraySet<E extends Comparable<E>> extends AbstractSet<E> implements Naviga
 
     @Override
     public NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
-        final int ceiling = ceilingIndex(fromElement);
-        final int higher = higherIndex(fromElement);
-        final int floor = floorIndex(toElement);
-        final int lower = lowerIndex(toElement);
+        final int toInclusiveIndex = floorIndex(toElement);
+        final int toExclusiveIndex = lowerIndex(toElement);
+        final int fromInclusiveIndex = ceilingIndex(fromElement);
+        final int fromExclusiveIndex = higherIndex(fromElement);
 
-        if (floor == -1 || ceiling == -1)
-        {
+        if (toInclusiveIndex == -1 || fromInclusiveIndex == -1) {
             throw new IllegalArgumentException("fromElement and toElement should be in set");
         }
 
-        final int fromIndex = fromInclusive ? ceiling : higher;
-        final int toIndex = toInclusive ? floor : lower;
+        if (compareIndexes(fromInclusiveIndex, toInclusiveIndex) > 0) {
+            throw new IllegalArgumentException("fromElement cannot be greater than toElement");
+        }
 
-        switch (compareIndexes(fromIndex, toIndex))
-        {
+        final int toIndex = toInclusive ? toInclusiveIndex : toExclusiveIndex;
+        final int fromIndex = fromInclusive ? fromInclusiveIndex : fromExclusiveIndex;
+
+        switch (compareIndexes(fromIndex, toIndex)) {
             case -1:
+            case 0:
                 return new ArraySet<>(this.data, fromIndex, toIndex);
 
-            case 0:
-                return new ArraySet<>(new ArrayList<E>());
-
             default:
-                throw new IllegalArgumentException("fromElement cannot be greater than toElement");
+                return new ArraySet<>(new ArrayList<E>());
         }
     }
 
@@ -288,8 +290,7 @@ class ArraySet<E extends Comparable<E>> extends AbstractSet<E> implements Naviga
         return low;
     }
 
-    private boolean isReversed()
-    {
+    private boolean isReversed() {
         return this.fromIndex > this.toIndex;
     }
 }

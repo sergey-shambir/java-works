@@ -3,10 +3,7 @@ package name.sergey.shambir;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NavigableSet;
+import java.util.*;
 
 public class ArraySetTests extends Assert {
     @Test
@@ -19,7 +16,7 @@ public class ArraySetTests extends Assert {
         assertEquals(expected.length, set.size());
         assertEquals(set.first(), "aa");
         assertEquals(set.last(), "bb");
-        assertArrayEquals(expected, toArray(set, false));
+        assertArrayEquals(expected, toArray(set));
     }
 
     @Test
@@ -28,7 +25,7 @@ public class ArraySetTests extends Assert {
         String[] expected = {"bb", "ba", "ab", "aa"};
         ArraySet<String> set = new ArraySet<>(new ArrayList<>(Arrays.asList(values)));
 
-        assertArrayEquals(expected, toArray(set, true));
+        assertArrayEquals(expected, toReversedArray(set));
     }
 
     @Test
@@ -37,7 +34,21 @@ public class ArraySetTests extends Assert {
         String[] expected = {"bb", "ba", "ab", "aa"};
         ArraySet<String> set = new ArraySet<>(new ArrayList<>(Arrays.asList(values)));
 
-        assertArrayEquals(expected, toArray(set.descendingSet(), false));
+        assertArrayEquals(expected, toArray(set.descendingSet()));
+    }
+
+    @Test
+    public void testSetWithComparator() {
+        String[] values = {"aa", "bb", "ab", "ba", "ab", "bb", "bb"};
+        String[] expected = {"bb", "ba", "ab", "aa"};
+        Comparator reverseOrder = Collections.reverseOrder();
+        ArraySet<String> set = new ArraySet<>(new ArrayList<>(Arrays.asList(values)), reverseOrder);
+
+        assertFalse(set.isEmpty());
+        assertEquals(expected.length, set.size());
+        assertEquals(set.first(), "bb");
+        assertEquals(set.last(), "aa");
+        assertArrayEquals(expected, toArray(set));
     }
 
     @Test
@@ -58,6 +69,27 @@ public class ArraySetTests extends Assert {
         assertEquals("ba", set.lower("bb"));
         assertEquals("bb", set.lower("bbb"));
         assertEquals("bb", set.lower("cc"));
+    }
+
+    @Test
+    public void testLowerWithComparator() {
+        ArraySet<String> empty = new ArraySet<>(new ArrayList<String>());
+        assertEquals(null, empty.lower("00"));
+        assertEquals(null, empty.lower("zz"));
+
+        String[] values = {"aa", "bb", "ab", "ba", "ab", "bb", "bb"};
+        Comparator reverseOrder = Collections.reverseOrder();
+        ArraySet<String> set = new ArraySet<>(new ArrayList<>(Arrays.asList(values)), reverseOrder);
+
+        assertEquals("aa", set.lower("00"));
+        assertEquals("ab", set.lower("aa"));
+        assertEquals("ab", set.lower("aaa"));
+        assertEquals("ba", set.lower("ab"));
+        assertEquals("ba", set.lower("ac"));
+        assertEquals("bb", set.lower("ba"));
+        assertEquals(null, set.lower("bb"));
+        assertEquals(null, set.lower("bbb"));
+        assertEquals(null, set.lower("cc"));
     }
 
     @Test
@@ -134,9 +166,58 @@ public class ArraySetTests extends Assert {
         set.pollLast();
     }
 
-    private String[] toArray(NavigableSet<String> set, boolean reverse) {
-        String[] result = new String[set.size()];
-        Iterator<String> iterator = reverse ? set.descendingIterator() : set.iterator();
+    @Test(expected = NoSuchElementException.class)
+    public void testNextOnEmpty() {
+        ArraySet<String> empty = new ArraySet<>(new ArrayList<String>());
+        Iterator<String> iterator = empty.iterator();
+        assertFalse(iterator.hasNext());
+        iterator.next();
+    }
+
+    @Test
+    public void testSubSetInclusiveExclusive() {
+        String[] values = {"aa", "bb", "ab", "ba", "ab", "bb", "bb"};
+        String[] expected = {"ba"};
+        ArraySet<String> set = new ArraySet<>(new ArrayList<>(Arrays.asList(values)));
+        SortedSet<String> subset = set.subSet("ba", "bb");
+
+        assertEquals(1, subset.size());
+        assertArrayEquals(expected, toArray(subset));
+    }
+
+    @Test
+    public void testSubSetInclusiveInclusive() {
+        String[] values = {"aa", "bb", "ab", "ba", "ab", "bb", "bb"};
+        String[] expected = {"ba", "bb"};
+        ArraySet<String> set = new ArraySet<>(new ArrayList<>(Arrays.asList(values)));
+        SortedSet<String> subset = set.subSet("ba", true, "bb", true);
+
+        assertEquals(2, subset.size());
+        assertArrayEquals(expected, toArray(subset));
+    }
+
+    @Test
+    public void testSubSetOfSubSet() {
+        String[] values = {"aa", "bb", "ab", "ba", "ab", "bb", "bb"};
+        String[] expected = {"ab"};
+        ArraySet<String> set = new ArraySet<>(new ArrayList<>(Arrays.asList(values)));
+        SortedSet<String> subset = set.subSet("ab", "bb");
+        SortedSet<String> subsetOfSubset = subset.subSet("ab", "ba");
+
+        assertEquals(1, subsetOfSubset.size());
+        assertArrayEquals(expected, toArray(subsetOfSubset));
+    }
+
+    private String[] toReversedArray(NavigableSet<String> set) {
+        return toArray(set.descendingIterator(), set.size());
+    }
+
+    private String[] toArray(SortedSet<String> set) {
+        return toArray(set.iterator(), set.size());
+    }
+
+    private String[] toArray(Iterator<String> iterator, int size) {
+        String[] result = new String[size];
         for (int i = 0; i < result.length; ++i) {
             assertTrue(iterator.hasNext());
             result[i] = iterator.next();
