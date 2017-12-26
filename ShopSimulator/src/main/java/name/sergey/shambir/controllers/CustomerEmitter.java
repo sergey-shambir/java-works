@@ -7,16 +7,15 @@ import name.sergey.shambir.random.NameGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
-import java.util.Random;
 
-public class CustomerEmitter {
+class CustomerEmitter {
     private static final int MAX_MINUTES_BEFORE_CUSTOMER = 20;
 
     private final EasyRandom random;
     private final EnumRandomGenerator<Customer.Category> categoryGenerator;
     private final NameGenerator nameGenerator;
     private LocalTime nextCustomerTime;
-    private ShopEventsListener listener;
+    private final ShopEventsListener listener;
 
     public CustomerEmitter(LocalTime openingTime, EasyRandom random, ShopEventsListener listener) {
         this.listener = listener;

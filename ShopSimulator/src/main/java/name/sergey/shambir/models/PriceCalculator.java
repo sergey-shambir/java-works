@@ -5,6 +5,7 @@ import name.sergey.shambir.utils.DecimalUtils;
 
 import java.math.BigDecimal;
 
+@SuppressWarnings("BigDecimalMethodWithoutRoundingCalled")
 public class PriceCalculator {
     private static final BigDecimal fullPercentage = new BigDecimal(100);
     private final DiscountInfo discountInfo;

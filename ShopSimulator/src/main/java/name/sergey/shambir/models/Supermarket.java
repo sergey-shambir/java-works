@@ -3,10 +3,10 @@ package name.sergey.shambir.models;
 import java.util.HashMap;
 
 public class Supermarket extends BasketOwner implements DiscountInfo {
-    private HashMap<Customer.Category, Integer> discounts;
-    private LawLimitations lawLimitations;
+    private final HashMap<Customer.Category, Integer> discounts;
+    private final LawLimitations lawLimitations;
 
-    private static final Integer ZERO = new Integer(0);
+    private static final Integer ZERO = 0;
 
     public Supermarket() {
         this.discounts = new HashMap<>();
@@ -17,7 +17,7 @@ public class Supermarket extends BasketOwner implements DiscountInfo {
 
     public void setDiscount(Customer.Category category, int value) {
         value = Math.max(0, Math.min(100, value));
-        discounts.put(category, new Integer(value));
+        discounts.put(category, value);
     }
 
     public boolean hasLimitation(Customer customer, Product product) {
@@ -26,6 +26,6 @@ public class Supermarket extends BasketOwner implements DiscountInfo {
 
     @Override
     public int getDiscountPercentage(Customer customer) {
-        return discounts.getOrDefault(customer.getCategory(), ZERO).intValue();
+        return discounts.getOrDefault(customer.getCategory(), ZERO);
     }
 }

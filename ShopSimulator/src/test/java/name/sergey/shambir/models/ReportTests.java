@@ -59,11 +59,11 @@ public class ReportTests extends Assert {
         report.addSoldProduct(milk, Quantity.uncountable(1.2));
 
         String result = report.toString();
-        assertTrue(result.indexOf("adults") != -1);
-        assertTrue(result.indexOf("children") != -1);
-        assertTrue(result.indexOf("retired customers") == -1);
-        assertTrue(result.indexOf(this.milk.getName()) != -1);
-        assertTrue(result.indexOf(this.coffee.getName()) != -1);
-        assertTrue(result.indexOf(this.chocolate.getName()) == -1);
+        assertTrue(result.contains("adults"));
+        assertTrue(result.contains("children"));
+        assertTrue(!result.contains("retired customers"));
+        assertTrue(result.contains(this.milk.getName()));
+        assertTrue(result.contains(this.coffee.getName()));
+        assertTrue(!result.contains(this.chocolate.getName()));
     }
 }

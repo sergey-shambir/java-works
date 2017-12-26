@@ -3,8 +3,8 @@ package name.sergey.shambir.utils;
 import java.math.BigDecimal;
 
 public class DecimalUtils {
-    public static BigDecimal ZERO_CURRENCY = normalizeCurrency(BigDecimal.ZERO);
-    public static BigDecimal ZERO_AMOUNT = normalizeAmount(BigDecimal.ZERO);
+    public static final BigDecimal ZERO_CURRENCY = normalizeCurrency(BigDecimal.ZERO);
+    public static final BigDecimal ZERO_AMOUNT = normalizeAmount(BigDecimal.ZERO);
 
     public static BigDecimal normalizeCurrency(BigDecimal value) {
         return value.setScale(2, BigDecimal.ROUND_HALF_EVEN);

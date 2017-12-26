@@ -10,7 +10,7 @@ public class ProductGenerator {
     private static final String[] HYGIENE_PRODUCT_NAMES = {"wipes",     "soap",       "shampoo",   "comb",
                                                            "hairdryer", "toothbrush", "toothpaste"};
     private static final String[] ALCOHOL_NAMES = {"wine", "whiskey", "beer", "liquor", "tequila", "martini"};
-    private static final String[] SMOCKABLE_NAMES = {"cigarettes", "cigar"};
+    private static final String[] SMOCKABLES_NAMES = {"cigarettes", "cigar"};
 
     private static final double MIN_PRICE = 2.0;
     private static final double MAX_PRICE = 20.0;
@@ -53,7 +53,7 @@ public class ProductGenerator {
                 names = ALCOHOL_NAMES;
                 break;
             case Smockables:
-                names = SMOCKABLE_NAMES;
+                names = SMOCKABLES_NAMES;
                 break;
         }
         return random.nextItem(names);

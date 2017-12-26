@@ -1,4 +1,4 @@
-package name.sergey.shambir.models;
+package name.sergey.shambir.quantity;
 
 import name.sergey.shambir.quantity.Quantity;
 import name.sergey.shambir.quantity.QuantityCategory;
@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
+@SuppressWarnings("ALL")
 public class QuantityTests extends Assert {
     @Test
     public void testCountable() {
@@ -140,6 +141,7 @@ public class QuantityTests extends Assert {
         assertEquals("1 unit", oneCountable.toString());
     }
 
+    @SuppressWarnings({"EqualsBetweenInconvertibleTypes", "EqualsWithItself"})
     @Test
     public void testEquals() {
         Quantity a = Quantity.uncountable(101);

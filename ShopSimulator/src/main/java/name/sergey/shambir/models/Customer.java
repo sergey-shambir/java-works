@@ -45,8 +45,8 @@ public class Customer extends BasketOwner implements ProductStore {
         return payImpl(price, true);
     }
 
-    private String name;
-    private Category category;
+    private final String name;
+    private final Category category;
     private BigDecimal cashOnCard;
     private BigDecimal netCash;
     private BigDecimal bonuses;

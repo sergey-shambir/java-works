@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class Basket implements ProductStore {
-    private HashMap<Product, Quantity> products;
+    private final HashMap<Product, Quantity> products;
 
     public Basket() {
         this.products = new HashMap<>();

@@ -1,4 +1,4 @@
-package name.sergey.shambir.utils;
+package name.sergey.shambir.random;
 
 import name.sergey.shambir.random.EasyRandom;
 import name.sergey.shambir.random.EnumRandomGenerator;
@@ -12,7 +12,6 @@ public class EnumRandomGeneratorTests extends Assert {
 
     private static final long[] SEEDS = {42, 9147124, 54281771};
     private static final int SIMULATION_COUNT = 1000;
-    private static double MAX_DEVIATION = 0.05;
 
     @Test
     public void testSetWeight() {
@@ -22,6 +21,7 @@ public class EnumRandomGeneratorTests extends Assert {
 
             // By default, weight is 1 and probability is near to 0.(3)
             double probability = getConstantProbability(generator, Language.English);
+            double MAX_DEVIATION = 0.05;
             assertEquals(1.0 / 3.0, probability, MAX_DEVIATION);
 
             probability = getConstantProbability(generator, Language.Russian);
@@ -43,15 +43,15 @@ public class EnumRandomGeneratorTests extends Assert {
      * Returns constant probability at simulation in range [0..1]
      * @param generator - random enum constants generator
      * @param language - enum constant which probability should be counted
-     * @return
+     * @return measured probability
      */
     private static double getConstantProbability(EnumRandomGenerator<Language> generator, Language language) {
-        int constantCont = 0;
+        int constantCount = 0;
         for (int i = 0; i < SIMULATION_COUNT; ++i) {
             if (generator.nextValue() == language) {
-                ++constantCont;
+                ++constantCount;
             }
         }
-        return (double)constantCont / (double)SIMULATION_COUNT;
+        return (double)constantCount / (double)SIMULATION_COUNT;
     }
 }

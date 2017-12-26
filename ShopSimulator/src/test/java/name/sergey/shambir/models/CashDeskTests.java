@@ -13,9 +13,9 @@ public class CashDeskTests extends Assert {
 
         CashDesk desk = new CashDesk();
         int sum = 0;
-        for (int i = 0; i < payments.length; ++i) {
-            desk.addCash(new BigDecimal(payments[i]));
-            sum += payments[i];
+        for (int payment : payments) {
+            desk.addCash(new BigDecimal(payment));
+            sum += payment;
         }
         assertEquals(desk.getCash(), DecimalUtils.toCurrency(sum));
     }

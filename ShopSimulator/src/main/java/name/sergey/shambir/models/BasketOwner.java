@@ -3,9 +3,9 @@ package name.sergey.shambir.models;
 import name.sergey.shambir.quantity.Quantity;
 
 public class BasketOwner implements ProductStore {
-    private Basket basket;
+    private final Basket basket;
 
-    public BasketOwner() {
+    BasketOwner() {
         this.basket = new Basket();
     }
 

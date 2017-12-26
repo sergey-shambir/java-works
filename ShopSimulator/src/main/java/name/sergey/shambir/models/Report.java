@@ -7,9 +7,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 
 public class Report {
-    BigDecimal totalCash;
-    HashMap<Customer.Category, BigDecimal> cashPerCategory;
-    HashMap<Product, Quantity> soldProductQuantities;
+    private BigDecimal totalCash;
+    private final HashMap<Customer.Category, BigDecimal> cashPerCategory;
+    private final HashMap<Product, Quantity> soldProductQuantities;
 
     public Report() {
         totalCash = BigDecimal.ZERO;
@@ -45,17 +45,25 @@ public class Report {
         StringBuilder builder = new StringBuilder();
 
         builder.append("---------- cash desk report -------------\n")
-            .append("Total cash: " + totalCash.toString() + "\n")
+            .append("Total cash: ")
+            .append(totalCash.toString())
+            .append("\n")
             .append("-----------------------------------------\n");
 
         for (Customer.Category category : cashPerCategory.keySet()) {
-            builder.append("Cash from " + getCategoryPluralForm(category) + ": " +
-                           cashPerCategory.get(category).toString().toLowerCase() + "\n");
+            builder.append("Cash from ")
+                .append(getCategoryPluralForm(category))
+                .append(": ")
+                .append(cashPerCategory.get(category).toString().toLowerCase())
+                .append("\n");
         }
         builder.append("-----------------------------------------\n");
 
         for (Product product : soldProductQuantities.keySet()) {
-            builder.append(product.getName() + " quantity: " + soldProductQuantities.get(product).toString() + "\n");
+            builder.append(product.getName())
+                .append(" quantity: ")
+                .append(soldProductQuantities.get(product).toString())
+                .append("\n");
         }
 
         return builder.toString();

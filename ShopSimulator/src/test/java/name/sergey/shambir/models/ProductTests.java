@@ -1,6 +1,5 @@
 package name.sergey.shambir.models;
 
-import name.sergey.shambir.quantity.Quantity;
 import name.sergey.shambir.quantity.QuantityCategory;
 import name.sergey.shambir.utils.DecimalUtils;
 import org.junit.Assert;
@@ -15,9 +14,10 @@ public class ProductTests extends Assert {
         assertEquals(product.getName(), "potato");
         assertEquals(product.getCategory(), Product.Category.Food);
         assertEquals(product.getPrice(), DecimalUtils.toCurrency(300));
-        assertEquals(product.getBonusesPercentage(), new BigDecimal(7).setScale(2));
+        assertEquals(product.getBonusesPercentage(), DecimalUtils.toCurrency(7));
     }
 
+    @SuppressWarnings({"EqualsBetweenInconvertibleTypes", "EqualsWithItself", "ObjectEqualsNull"})
     @Test
     public void testEquals() {
         final BigDecimal price = new BigDecimal(20);

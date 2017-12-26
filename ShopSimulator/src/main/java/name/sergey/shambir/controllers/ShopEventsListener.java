@@ -6,7 +6,7 @@ import name.sergey.shambir.quantity.Quantity;
 
 import java.math.BigDecimal;
 
-public interface ShopEventsListener {
+interface ShopEventsListener {
     void onCustomerEntered(Customer customer);
     void onCustomerPickUpProduct(Customer customer, String productName, Quantity count);
     void onCustomerStoppedShopping(Customer customer);

@@ -13,33 +13,29 @@ public class ShopWorld implements ShopEventsListener {
     private static final LocalTime OPENING_TIME = LocalTime.of(8, 0, 0);
     private static final LocalTime CLOSING_TIME = LocalTime.of(22, 0, 0);
     private static final int MINUTES_PER_STEP = 5;
-    private static final long SLEEP_MSEC_BETWEEN_STEPS = 100;
+    private static final long SLEEP_MILLISECONDS_BETWEEN_STEPS = 100;
     private LocalTime currentTime;
-    private EventsLogger logger;
-    private final EasyRandom random;
+    private final EventsLogger logger;
 
-    private Supermarket supermarket;
-    private CashDesk cashDesk;
-    private PriceCalculator priceCalculator;
-    private Report report;
+    private final Report report;
 
-    private CustomerEmitter customerEmitter;
-    private SupermarketSystem supermarketSystem;
-    private CashDeskSystem cashDeskSystem;
+    private final CustomerEmitter customerEmitter;
+    private final SupermarketSystem supermarketSystem;
+    private final CashDeskSystem cashDeskSystem;
 
     public ShopWorld() {
         this.currentTime = OPENING_TIME;
         this.logger = new EventsLogger(this.currentTime);
-        this.random = new EasyRandom(new Random());
+        EasyRandom random = new EasyRandom(new Random());
 
-        this.supermarket = new Supermarket();
-        this.cashDesk = new CashDesk();
-        this.priceCalculator = new PriceCalculator(this.supermarket);
+        Supermarket supermarket = new Supermarket();
+        CashDesk cashDesk = new CashDesk();
+        PriceCalculator priceCalculator = new PriceCalculator(supermarket);
         this.report = new Report();
 
-        this.cashDeskSystem = new CashDeskSystem(this.cashDesk, this.priceCalculator, this);
-        this.supermarketSystem = new SupermarketSystem(this.supermarket, this.priceCalculator, this.random, this);
-        this.customerEmitter = new CustomerEmitter(OPENING_TIME, this.random, this);
+        this.cashDeskSystem = new CashDeskSystem(cashDesk, priceCalculator, this);
+        this.supermarketSystem = new SupermarketSystem(supermarket, priceCalculator, random, this);
+        this.customerEmitter = new CustomerEmitter(OPENING_TIME, random, this);
     }
 
     public void runLoop() {
@@ -60,7 +56,7 @@ public class ShopWorld implements ShopEventsListener {
 
     private void sleep() {
         try {
-            Thread.sleep(SLEEP_MSEC_BETWEEN_STEPS);
+            Thread.sleep(SLEEP_MILLISECONDS_BETWEEN_STEPS);
         } catch (InterruptedException ex) {
             // ignore interrupt.
         }
@@ -106,11 +102,11 @@ public class ShopWorld implements ShopEventsListener {
         logger.logCustomerLeaveDry(customer.getName());
     }
 
-    private final int getCustomerCount() {
+    private int getCustomerCount() {
         return supermarketSystem.getCustomersCount() + cashDeskSystem.getCustomersCount();
     }
 
-    private final String[] getStoredProductNames(Product[] uniqueProducts) {
+    private String[] getStoredProductNames(Product[] uniqueProducts) {
         String[] names = new String[uniqueProducts.length];
         for (int i = 0; i < names.length; ++i) {
             names[i] = uniqueProducts[i].getName();

@@ -5,7 +5,6 @@ import name.sergey.shambir.quantity.QuantityCategory;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 

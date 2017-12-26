@@ -1,7 +1,6 @@
 package name.sergey.shambir.random;
 
 import java.util.Arrays;
-import java.util.Random;
 
 public class EnumRandomGenerator<E> {
     private final EasyRandom random;

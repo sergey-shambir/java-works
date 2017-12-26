@@ -6,8 +6,8 @@ import name.sergey.shambir.random.EnumRandomGenerator;
 import java.math.BigDecimal;
 
 public class QuantityGenerator {
-    private EasyRandom random;
-    private EnumRandomGenerator<QuantityCategory> categoryGenerator;
+    private final EasyRandom random;
+    private final EnumRandomGenerator<QuantityCategory> categoryGenerator;
 
     public QuantityGenerator(EasyRandom random) {
         this.random = random;

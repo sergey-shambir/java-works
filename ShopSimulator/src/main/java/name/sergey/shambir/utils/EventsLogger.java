@@ -60,7 +60,7 @@ public class EventsLogger {
         return text;
     }
 
-    private final String getTime() {
+    private String getTime() {
         return this.currentTime.toString();
     }
 }

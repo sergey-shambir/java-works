@@ -1,7 +1,6 @@
 package name.sergey.shambir.random;
 
-import java.util.Random;
-
+@SuppressWarnings("SpellCheckingInspection")
 public class NameGenerator {
     private static final String[] NAMES = {
         "Aaliyah",  "Aaron",     "Aarushi",   "Abagail",   "Abbey",    "Abbi",     "Abbie",     "Abby",
