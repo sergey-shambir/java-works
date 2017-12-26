@@ -77,7 +77,12 @@ target/generated-sources/
 target/generated-test-sources/
 target/test-classes/
 
-ShopSimulator/.idea/libraries/
+# IDEA files
+GetNetAddress/.idea/
+RecursiveWalk/.idea/
+ArraySetSandbox/.idea/
+ShopSimulator/.idea/
+ShopSimulator/target/
 
 # Special cases
 Docs
