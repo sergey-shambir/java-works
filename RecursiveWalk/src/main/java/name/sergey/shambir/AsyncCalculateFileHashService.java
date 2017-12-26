@@ -7,10 +7,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class AsyncCalculateFileHashService implements CalculateFileHashService, FileHashObserver {
-    ExecutorService executorService;
-    HashFunctionFactory hashFunctionFactory;
-    ConcurrentHashMap<Path, Integer> hashes;
-    boolean running;
+    private final ExecutorService executorService;
+    private final HashFunctionFactory hashFunctionFactory;
+    private final ConcurrentHashMap<Path, Integer> hashes;
+    private boolean running;
 
     AsyncCalculateFileHashService(HashFunctionFactory hashFunctionFactory) {
         int processorsNum = Runtime.getRuntime().availableProcessors();

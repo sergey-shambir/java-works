@@ -7,28 +7,28 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 class RecursiveFilesWalker implements DirectoryFilesWalker {
-    private ArrayList<Path> filepaths;
-    private HashSet<Path> usedPaths;
+    private final ArrayList<Path> filePaths;
+    private final HashSet<Path> usedPaths;
 
     RecursiveFilesWalker() {
-        this.filepaths = new ArrayList<>();
+        this.filePaths = new ArrayList<>();
         this.usedPaths = new HashSet<>();
     }
 
-    public void addDirectoryFiles(Path dirpath) {
+    public void addDirectoryFiles(Path directoryPath) {
         try {
-            Files.walk(dirpath).forEach(path -> {
+            Files.walk(directoryPath).forEach(path -> {
                 if (Files.isRegularFile(path) && !this.usedPaths.contains(path)) {
                     this.usedPaths.add(path);
-                    this.filepaths.add(path);
+                    this.filePaths.add(path);
                 }
             });
         } catch (IOException exception) {
-            throw new RuntimeException("cannot scan " + dirpath.toString() + ": " + exception.getMessage());
+            throw new RuntimeException("cannot scan " + directoryPath.toString() + ": " + exception.getMessage());
         }
     }
 
     public final ArrayList<Path> getFilePaths() {
-        return this.filepaths;
+        return this.filePaths;
     }
 }

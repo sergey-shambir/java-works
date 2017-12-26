@@ -12,7 +12,7 @@ public class CalculateFileHashTaskTests extends Assert {
     @Test
     public void testInvalidFileHash() {
         try {
-            File file = File.createTempFile("testfile", ".tmp");
+            File file = File.createTempFile("test_file", ".tmp");
             Path filepath = Paths.get(file.getAbsolutePath());
             CalculateFileHashTask task = new CalculateFileHashTask(filepath);
             task.run();
@@ -27,7 +27,7 @@ public class CalculateFileHashTaskTests extends Assert {
         String content = "The quick brown fox jumps over the lazy dog";
         byte[] contentBytes = content.getBytes();
         try {
-            File file = File.createTempFile("testfile", ".tmp");
+            File file = File.createTempFile("test_file", ".tmp");
 
             final FileOutputStream stream = new FileOutputStream(file.getAbsoluteFile());
             stream.write(contentBytes);

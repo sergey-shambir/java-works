@@ -5,11 +5,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class RecursiveHashCollector {
-    DirectoryFilesWalker directoryFilesWalker;
-    CalculateFileHashService calculateFileHashService;
-    Path inputPath;
-    Path outputPath;
+class RecursiveHashCollector {
+    private DirectoryFilesWalker directoryFilesWalker;
+    private CalculateFileHashService calculateFileHashService;
+    private Path inputPath;
+    private Path outputPath;
 
     void setDirectoryFilesWalker(DirectoryFilesWalker directoryFilesWalker) {
         this.directoryFilesWalker = directoryFilesWalker;

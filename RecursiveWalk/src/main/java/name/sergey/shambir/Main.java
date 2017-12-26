@@ -2,7 +2,7 @@ package name.sergey.shambir;
 
 import java.nio.file.Paths;
 
-public class Main {
+class Main {
     public static void main(String[] args) {
         if (args.length != 2) {
             System.err.printf("Usage: RecursiveWalk <input file> <output file>\n");
@@ -17,7 +17,7 @@ public class Main {
         }
     }
 
-    public static void calculateHashes(String inputPath, String outputPath) {
+    private static void calculateHashes(String inputPath, String outputPath) {
         RecursiveHashCollector collector = new RecursiveHashCollector();
         collector.setDirectoryFilesWalker(new RecursiveFilesWalker());
         collector.setCalculateFileHashService(new AsyncCalculateFileHashService(new FNVHashFunctionFactory()));

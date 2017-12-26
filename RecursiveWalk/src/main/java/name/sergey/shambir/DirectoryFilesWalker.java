@@ -3,7 +3,7 @@ package name.sergey.shambir;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-public interface DirectoryFilesWalker {
-    void addDirectoryFiles(Path dirpath);
+interface DirectoryFilesWalker {
+    void addDirectoryFiles(Path directoryPath);
     ArrayList<Path> getFilePaths();
 }
