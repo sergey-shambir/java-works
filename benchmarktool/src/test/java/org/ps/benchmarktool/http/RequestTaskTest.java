@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class RequestTaskTests extends Assert {
+public class RequestTaskTest extends Assert {
     private MockConnectionFactory factory;
     private MockRequestListener listener;
 
@@ -36,7 +36,6 @@ public class RequestTaskTests extends Assert {
 
             RequestTask task = new RequestTask(this.factory, this.listener, new URL("http://google.com"));
             task.run();
-            assertTrue(this.listener.wasSuccessful());
             assertTrue(this.listener.getLastTimeSpent().toMillis() >= 0);
             assertEquals(this.listener.getLastByteCount(), expectedBody.length);
             assertEquals(this.listener.getLastStatusCode(), expectedStatus);
@@ -55,7 +54,6 @@ public class RequestTaskTests extends Assert {
 
             RequestTask task = new RequestTask(this.factory, this.listener, new URL("http://yandex.ru"));
             task.run();
-            assertTrue(this.listener.wasSuccessful());
             assertTrue(this.listener.getLastTimeSpent().toMillis() >= 0);
             assertEquals(this.listener.getLastByteCount(), expectedBody.length);
             assertEquals(this.listener.getLastStatusCode(), expectedStatus);

@@ -32,7 +32,7 @@ public class RequestTask implements Runnable {
             readResponse(conn);
             final long durationNano = System.nanoTime() - startTimeNano;
             listener.onRequestComplete(Duration.ofNanos(durationNano), this.readByteCount, this.httpStatusCode);
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
             listener.onRequestError(ex);
         } finally {
             if (conn != null) {
@@ -41,10 +41,14 @@ public class RequestTask implements Runnable {
         }
     }
 
-    private void readResponse(HttpURLConnection conn) throws IOException {
-        InputStream in = conn.getInputStream();
-        long maxSkipSize = Long.MAX_VALUE;
-        this.readByteCount = in.skip(maxSkipSize);
-        this.httpStatusCode = conn.getResponseCode();
+    private void readResponse(HttpURLConnection conn) {
+        try {
+            InputStream in = conn.getInputStream();
+            long maxSkipSize = Long.MAX_VALUE;
+            this.readByteCount = in.skip(maxSkipSize);
+            this.httpStatusCode = conn.getResponseCode();
+        } catch (IOException ex) {
+            throw new RuntimeException("response read error: " + ex.getMessage());
+        }
     }
 }

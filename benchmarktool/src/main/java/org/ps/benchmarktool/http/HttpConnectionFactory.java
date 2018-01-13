@@ -1,7 +1,6 @@
 package org.ps.benchmarktool.http;
 
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public interface HttpConnectionFactory { HttpURLConnection openConnection(URL url) throws IOException; }
+public interface HttpConnectionFactory { HttpURLConnection openConnection(URL url); }

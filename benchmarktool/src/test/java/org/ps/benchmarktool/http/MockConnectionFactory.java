@@ -25,11 +25,15 @@ public class MockConnectionFactory implements HttpConnectionFactory {
     }
 
     @Override
-    public HttpURLConnection openConnection(URL url) throws IOException {
+    public HttpURLConnection openConnection(URL url) {
         ByteArrayInputStream in = new ByteArrayInputStream(this.responseBody);
         HttpURLConnection conn = PowerMockito.mock(HttpURLConnection.class);
-        PowerMockito.when(conn.getResponseCode()).thenReturn(this.statusCode).getMock();
-        PowerMockito.when(conn.getInputStream()).thenReturn(in).getMock();
+        try {
+            PowerMockito.when(conn.getResponseCode()).thenReturn(this.statusCode).getMock();
+            PowerMockito.when(conn.getInputStream()).thenReturn(in).getMock();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
         PowerMockito.doNothing().when(conn).disconnect();
         return conn;
     }
