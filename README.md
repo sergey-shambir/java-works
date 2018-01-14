@@ -2,6 +2,12 @@
 
 ## Finished works
 
+### BenchmarkTool
+
+Usage `benchmarktool --url https://yandex.ru/ --num 1000 --concurrency 10 --timeout 30000`
+
+- runs 1000 requests of `https://yandex.ru/` with 10 simultaneous requests and request timeout 30 sec
+
 ### 1.1 GetNetAddress
 
 Usage: `GetNetAddress <IP> <mask>`
@@ -36,16 +42,12 @@ Double     4.9E-324               0x1.fffffffffffffp1023 64
 
 ## Work in progress
 
-### 2.1 SupermarkerSimulator
+### 2.1 SupermarkerSimulator (+3.1, 3.2, 3.3)
 
-What implemented:
+Implemented features:
 
 - products, baskets, customers flow, payments, discounts
 - random-based simulation: random products supply, random products set, random customer actions, customer emitter, etc.
 - precise price calculations with BigDecimal
-
-What isn't:
-
 - final cash desk report
 - product category restrictions
-- unnecessary entities like Bill, PaymentMethod
