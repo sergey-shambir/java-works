@@ -46,12 +46,12 @@ public class QuantityTests extends Assert {
         assertEquals(nonZero.compareTo(zero), 1);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalStateException.class)
     public void testConstructNegativeCountable() {
         new Quantity(new BigDecimal(-1), QuantityCategory.Countable);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalStateException.class)
     public void testConstructNegativeUncountable() {
         new Quantity(new BigDecimal(-2), QuantityCategory.Uncountable);
     }
@@ -70,7 +70,7 @@ public class QuantityTests extends Assert {
         assertEquals(a.add(b).value(), a.value().add(b.value()));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testAddDifferent() {
         Quantity a = Quantity.countable(10);
         Quantity b = Quantity.uncountable(8.72);
@@ -92,7 +92,7 @@ public class QuantityTests extends Assert {
         assertTrue(a.subtract(b).isZero());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalStateException.class)
     public void testSubtractCountableGreater() {
         Quantity a = Quantity.countable(101);
         Quantity b = Quantity.countable(102);
@@ -114,14 +114,14 @@ public class QuantityTests extends Assert {
         assertTrue(a.subtract(b).isZero());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalStateException.class)
     public void testSubtractUncountableGreater() {
         Quantity a = Quantity.uncountable(101);
         Quantity b = Quantity.uncountable(101.5);
         a.subtract(b).value();
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCompareDifferentCategories() {
         Quantity a = Quantity.uncountable(101);
         Quantity b = Quantity.countable(101);

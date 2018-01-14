@@ -4,7 +4,7 @@ import name.sergey.shambir.utils.DecimalUtils;
 
 import java.math.BigDecimal;
 
-public class CashDesk {
+public class CashDesk implements CashStorage {
     private BigDecimal cash;
 
     public CashDesk() {
@@ -15,6 +15,7 @@ public class CashDesk {
         return cash;
     }
 
+    @Override
     public void addCash(BigDecimal value) {
         this.cash = DecimalUtils.normalizeCurrency(this.cash.add(value));
     }

@@ -6,11 +6,11 @@ import name.sergey.shambir.utils.DecimalUtils;
 import java.math.BigDecimal;
 
 @SuppressWarnings("BigDecimalMethodWithoutRoundingCalled")
-public class PriceCalculator {
+public class CostCalculator {
     private static final BigDecimal fullPercentage = new BigDecimal(100);
     private final DiscountInfo discountInfo;
 
-    public PriceCalculator(DiscountInfo discountInfo) {
+    public CostCalculator(DiscountInfo discountInfo) {
         this.discountInfo = discountInfo;
     }
 

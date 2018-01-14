@@ -7,6 +7,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
+// TODO: create settings.properties with argument defaults
+// TODO: time-outed requests should be accounted as failed
+// TODO: fix static analyzer warnings
+// TODO: benchmark different local servers with "hello world" server
+//       e.g. Node.js, Ruby (Jekyll), Apache, etc.
+
 public class Main {
     private static final int DEFAULT_REQUEST_COUNT = 100;
     private static final Duration DEFAULT_REQUEST_TIMEOUT = Duration.ofSeconds(40);

@@ -23,7 +23,7 @@ public class QuantityGenerator {
                 double doubleValue = random.nextDoubleInRange(0, max.value().doubleValue());
                 return new Quantity(new BigDecimal(doubleValue), max.getCategory());
             default:
-                throw new RuntimeException("unknown quantity category");
+                throw new IllegalStateException("unknown quantity category");
         }
     }
 
@@ -37,7 +37,7 @@ public class QuantityGenerator {
                 double doubleValue = random.nextDoubleInRange(min, max);
                 return new Quantity(new BigDecimal(doubleValue), category);
             default:
-                throw new RuntimeException("unknown quantity category");
+                throw new IllegalStateException("unknown quantity category");
         }
     }
 }

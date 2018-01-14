@@ -4,7 +4,6 @@ import name.sergey.shambir.utils.DecimalUtils;
 
 import java.math.BigDecimal;
 
-// TODO: throw IllegalArgumentException instead of RuntimeException
 public class Quantity implements Comparable<Quantity> {
     private final QuantityCategory category;
     private final BigDecimal value;
@@ -50,7 +49,7 @@ public class Quantity implements Comparable<Quantity> {
     @Override
     public int compareTo(Quantity other) {
         if (this.category != other.category) {
-            throw new RuntimeException("cannot compare quantities of different category");
+            throw new IllegalArgumentException("cannot compare quantities of different category");
         }
         return value.compareTo(other.value);
     }
@@ -66,7 +65,7 @@ public class Quantity implements Comparable<Quantity> {
                 measureUnits = "kg";
                 break;
             default:
-                throw new RuntimeException("unknown quantity category");
+                throw new IllegalStateException("unknown quantity category");
         }
         return this.value.toString() + " " + measureUnits;
     }
@@ -78,7 +77,7 @@ public class Quantity implements Comparable<Quantity> {
             case Uncountable:
                 return this.value.compareTo(DecimalUtils.ZERO_AMOUNT) == 0;
             default:
-                throw new RuntimeException("unknown quantity category");
+                throw new IllegalStateException("unknown quantity category");
         }
     }
 
@@ -90,7 +89,7 @@ public class Quantity implements Comparable<Quantity> {
             return new Quantity(other.value, other.category);
         }
         if (this.category != other.category) {
-            throw new RuntimeException("cannot add quantity of different category");
+            throw new IllegalArgumentException("cannot add quantity of different category");
         }
         return new Quantity(this.value.add(other.value), this.category);
     }
@@ -100,11 +99,11 @@ public class Quantity implements Comparable<Quantity> {
             return new Quantity(this.value, this.category);
         }
         if (this.category != other.category) {
-            throw new RuntimeException("cannot subtract quantity of different category");
+            throw new IllegalArgumentException("cannot subtract quantity of different category");
         }
         BigDecimal value = this.value.subtract(other.value);
         if (value.compareTo(normalize(BigDecimal.ZERO, this.category)) < 0) {
-            throw new RuntimeException("cannot subtract more quantity than available");
+            throw new IllegalStateException("cannot subtract more quantity than available");
         }
         return new Quantity(value, this.category);
     }
@@ -114,17 +113,17 @@ public class Quantity implements Comparable<Quantity> {
             case Countable:
                 value = DecimalUtils.normalizeNumber(value);
                 if (value.compareTo(BigDecimal.ZERO) < 0) {
-                    throw new RuntimeException("Quantity cannot be less than zero");
+                    throw new IllegalStateException("Quantity cannot be less than zero");
                 }
                 break;
             case Uncountable:
                 value = DecimalUtils.normalizeAmount(value);
                 if (value.compareTo(DecimalUtils.ZERO_AMOUNT) < 0) {
-                    throw new RuntimeException("Quantity cannot be less than zero");
+                    throw new IllegalStateException("Quantity cannot be less than zero");
                 }
                 break;
             default:
-                throw new RuntimeException("unknown quantity category");
+                throw new IllegalStateException("unknown quantity category");
         }
         return value;
     }

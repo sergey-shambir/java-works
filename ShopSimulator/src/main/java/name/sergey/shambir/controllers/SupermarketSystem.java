@@ -25,9 +25,9 @@ public class SupermarketSystem {
     private final EasyRandom random;
     private final EnumRandomGenerator<CustomerAction> actionGenerator;
     private final QuantityGenerator quantityGenerator;
-    private final PriceCalculator priceCalculator;
+    private final CostCalculator priceCalculator;
 
-    public SupermarketSystem(Supermarket supermarket, PriceCalculator priceCalculator, EasyRandom random,
+    public SupermarketSystem(Supermarket supermarket, CostCalculator priceCalculator, EasyRandom random,
                              ShopEventsListener listener) {
         this.supermarket = supermarket;
         this.priceCalculator = priceCalculator;

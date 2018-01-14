@@ -30,7 +30,7 @@ public class ShopWorld implements ShopEventsListener {
 
         Supermarket supermarket = new Supermarket();
         CashDesk cashDesk = new CashDesk();
-        PriceCalculator priceCalculator = new PriceCalculator(supermarket);
+        CostCalculator priceCalculator = new CostCalculator(supermarket);
         this.report = new Report();
 
         this.cashDeskSystem = new CashDeskSystem(cashDesk, priceCalculator, this);

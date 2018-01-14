@@ -8,8 +8,6 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-// TODO: fix running tests from Maven.
-
 public class BasketTests extends Assert {
     private final Product coffee;
     private final Product milk;
@@ -56,7 +54,7 @@ public class BasketTests extends Assert {
         assertTrue(products.indexOf(this.coffee) != -1);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testPutCountableThenUncountable() {
         Basket basket = new Basket();
         basket.putProduct(this.coffee, Quantity.countable(3));

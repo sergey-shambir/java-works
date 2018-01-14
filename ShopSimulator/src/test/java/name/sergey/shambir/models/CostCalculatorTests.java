@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
-public class PriceCalculatorTests extends Assert {
+public class CostCalculatorTests extends Assert {
     private MockDiscountInfo discountInfo;
     private Product potato;
     private Product milk;
@@ -24,7 +24,7 @@ public class PriceCalculatorTests extends Assert {
 
     @Test
     public void testGetProductCost() {
-        PriceCalculator calc = new PriceCalculator(this.discountInfo);
+        CostCalculator calc = new CostCalculator(this.discountInfo);
         this.discountInfo.discountPercentage = 11;
         BigDecimal cost = calc.getProductsCost(BigDecimal.ZERO, this.milk, Quantity.uncountable(7));
         assertEquals(DecimalUtils.toCurrency(35), cost);
@@ -38,7 +38,7 @@ public class PriceCalculatorTests extends Assert {
 
     @Test
     public void testGetBonuses() {
-        PriceCalculator calc = new PriceCalculator(this.discountInfo);
+        CostCalculator calc = new CostCalculator(this.discountInfo);
         this.discountInfo.discountPercentage = 10;
 
         BigDecimal value = calc.getProductBonuses(this.milk, new BigDecimal(300));
@@ -56,7 +56,7 @@ public class PriceCalculatorTests extends Assert {
         final int expectedDiscount = 20;
         final BigDecimal expectedDiscountDecimal = new BigDecimal(expectedDiscount);
         this.discountInfo.discountPercentage = expectedDiscount;
-        PriceCalculator calc = new PriceCalculator(this.discountInfo);
+        CostCalculator calc = new CostCalculator(this.discountInfo);
         BigDecimal expectedCost;
         BigDecimal expectedBonuses;
 

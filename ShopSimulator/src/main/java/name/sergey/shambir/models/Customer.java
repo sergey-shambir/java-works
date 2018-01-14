@@ -45,6 +45,20 @@ public class Customer extends BasketOwner implements ProductStore {
         return payImpl(price, true);
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if ((other == null) || (getClass() != other.getClass())) {
+            return false;
+        }
+        Customer otherCustomer = (Customer)other;
+        return name.equals(otherCustomer.name) && category.equals(otherCustomer.category) &&
+                cashOnCard.equals(otherCustomer.cashOnCard) && netCash.equals(otherCustomer.netCash) &&
+                (bonuses.equals(otherCustomer.bonuses));
+    }
+
     private final String name;
     private final Category category;
     private BigDecimal cashOnCard;

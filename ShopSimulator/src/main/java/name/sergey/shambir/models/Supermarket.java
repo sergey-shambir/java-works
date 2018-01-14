@@ -6,8 +6,6 @@ public class Supermarket extends BasketOwner implements DiscountInfo {
     private final HashMap<Customer.Category, Integer> discounts;
     private final LawLimitations lawLimitations;
 
-    private static final Integer ZERO = 0;
-
     public Supermarket() {
         this.discounts = new HashMap<>();
         this.lawLimitations = new LawLimitations();
@@ -26,6 +24,6 @@ public class Supermarket extends BasketOwner implements DiscountInfo {
 
     @Override
     public int getDiscountPercentage(Customer customer) {
-        return discounts.getOrDefault(customer.getCategory(), ZERO);
+        return discounts.getOrDefault(customer.getCategory(), 0);
     }
 }

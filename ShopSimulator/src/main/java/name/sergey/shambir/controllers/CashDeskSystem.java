@@ -6,14 +6,14 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 
 class CashDeskSystem {
-    private final CashDesk cashDesk;
-    private final PriceCalculator priceCalculator;
+    private final CashStorage cashDesk;
+    private final CostCalculator priceCalculator;
     private final ShopEventsListener listener;
     private final LinkedList<Customer> customersQueue;
 
-    public CashDeskSystem(CashDesk cashDesk, PriceCalculator priceCalculator, ShopEventsListener listener) {
+    public CashDeskSystem(CashDesk cashDesk, CostCalculator costCalculator, ShopEventsListener listener) {
         this.cashDesk = cashDesk;
-        this.priceCalculator = priceCalculator;
+        this.priceCalculator = costCalculator;
         this.listener = listener;
         this.customersQueue = new LinkedList<>();
     }

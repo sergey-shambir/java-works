@@ -25,7 +25,7 @@ public class EnumRandomGenerator<E> {
         assert weight > 0;
         int valueIndex = Arrays.binarySearch(this.values, value);
         if (valueIndex < 0) {
-            throw new RuntimeException("Unexpected enum value");
+            throw new IllegalArgumentException("Unexpected enum value");
         }
         this.weights[valueIndex] = weight;
 

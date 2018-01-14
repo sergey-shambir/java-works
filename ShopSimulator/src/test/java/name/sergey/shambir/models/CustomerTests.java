@@ -2,6 +2,7 @@ package name.sergey.shambir.models;
 
 import name.sergey.shambir.quantity.Quantity;
 import name.sergey.shambir.quantity.QuantityCategory;
+import name.sergey.shambir.utils.DecimalUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -93,5 +94,25 @@ public class CustomerTests extends Assert {
         customer.addBonuses(new BigDecimal(1000));
         assertTrue(customer.canPay(new BigDecimal(1)));
         assertTrue(customer.canPay(new BigDecimal(1000)));
+    }
+
+    @SuppressWarnings({"EqualsBetweenInconvertibleTypes", "EqualsWithItself", "ObjectEqualsNull"})
+    @Test
+    public void testEquals() {
+        final BigDecimal price = new BigDecimal(20);
+        final Customer customer1v1 = new Customer("John Doe", Customer.Category.Adult, DecimalUtils.toCurrency(10), DecimalUtils.toCurrency(20));
+        final Customer customer1v2 = new Customer("John Doe", Customer.Category.Adult, DecimalUtils.toCurrency(10), DecimalUtils.toCurrency(20));
+        final Customer customer3 = new Customer("John Lennon", Customer.Category.Adult, DecimalUtils.toCurrency(10), DecimalUtils.toCurrency(20));
+
+        // Common cases
+        assertTrue(customer1v1.equals(customer1v2));
+        assertTrue(customer1v2.equals(customer1v1));
+        assertFalse(customer1v1.equals(customer3));
+        assertFalse(customer3.equals(customer1v1));
+
+        // Special cases
+        assertTrue(customer1v1.equals(customer1v1));
+        assertFalse(customer1v1.equals(null));
+        assertFalse(customer1v1.equals(price));
     }
 }
