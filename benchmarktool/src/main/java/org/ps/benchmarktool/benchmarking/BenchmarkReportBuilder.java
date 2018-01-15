@@ -30,6 +30,11 @@ public class BenchmarkReportBuilder implements RequestListener {
     }
 
     @Override
+    public void onRequestTimeout() {
+        report.addRequestKilledByTimeout();
+    }
+
+    @Override
     public void onRequestError(RuntimeException ex) {
         synchronized (this) {
             this.lastException = ex;

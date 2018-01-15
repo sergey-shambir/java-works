@@ -7,8 +7,9 @@ public class BenchmarkReport {
     private final ArrayList<Duration> timeSpentList = new ArrayList<>();
     private boolean isDirty;
     private long transmittedByteCount;
-    private int succeedCount;
-    private int failedCount;
+    private int succeedCount = 0;
+    private int failedCount = 0;
+    private int killedByTimeoutCount = 0;
     private int requestCount;
     private int concurrencyLevel;
     private Duration requestsTotalDuration;
@@ -64,7 +65,7 @@ public class BenchmarkReport {
     }
 
     public final int getTotalCount() {
-        return this.succeedCount + this.failedCount;
+        return succeedCount + failedCount + killedByTimeoutCount;
     }
 
     public final int getFailedCount() {
@@ -75,6 +76,14 @@ public class BenchmarkReport {
         this.concurrencyLevel = concurrencyLevel;
         this.requestCount = requestCount;
         this.requestsTotalDuration = requestsTotalDuration;
+    }
+
+    public final int getRequestsKilledByTimeoutCount() {
+        return killedByTimeoutCount;
+    }
+
+    public void addRequestKilledByTimeout() {
+        killedByTimeoutCount++;
     }
 
     public void addRequest(boolean succeed, long byteCount, Duration duration) {

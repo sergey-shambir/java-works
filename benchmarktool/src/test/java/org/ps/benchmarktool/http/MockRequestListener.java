@@ -56,6 +56,11 @@ public class MockRequestListener implements RequestListener {
     }
 
     @Override
+    public void onRequestTimeout() {
+        // nothing
+    }
+
+    @Override
     public void setRequestsStats(int concurrencyLevel, int requestCount, Duration requestsTotalDuration) {
         this.concurrencyLevel = concurrencyLevel;
         this.requestCount = requestCount;
