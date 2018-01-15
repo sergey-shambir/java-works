@@ -5,11 +5,11 @@ import org.ps.benchmarktool.http.RequestListener;
 import java.net.HttpURLConnection;
 import java.time.Duration;
 
-public class BenchmarkReportBuilder implements RequestListener {
+class BenchmarkReportBuilder implements RequestListener {
     private RuntimeException lastException;
     private final BenchmarkReportImpl report = new BenchmarkReportImpl();
 
-    public BenchmarkReport getReport() throws RuntimeException {
+    BenchmarkReport getReport() throws RuntimeException {
         if (this.lastException != null) {
             throw this.lastException;
         }
