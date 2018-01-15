@@ -24,12 +24,6 @@ public class BenchmarkBuilder {
         }
     }
 
-    class InvalidYamlFileException extends RuntimeException {
-        InvalidYamlFileException(YamlException e) {
-            super("invalid yaml file: " + e.getMessage(), e);
-        }
-    }
-
     private final BenchmarkSettingsImpl settings = new BenchmarkSettingsImpl();
 
     public void acceptYamlFile(String path) throws RuntimeException {
@@ -40,7 +34,7 @@ public class BenchmarkBuilder {
                 fillFromMap(data);
             }
         } catch (YamlException e) {
-            throw new InvalidYamlFileException(e);
+            throw new RuntimeException(e);
         } catch (FileNotFoundException e) {
             // ignore
         }

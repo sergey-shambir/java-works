@@ -5,7 +5,7 @@ import java.time.Duration;
 import java.util.Arrays;
 
 public class ReportPrinter {
-    private final int[] PERCENTILES = new int[]{50, 80, 90, 95, 99, 100};
+    private final int[] PERCENTILES = {50, 80, 90, 95, 99, 100};
     private final PrintStream stream;
 
     public ReportPrinter(PrintStream ps) {

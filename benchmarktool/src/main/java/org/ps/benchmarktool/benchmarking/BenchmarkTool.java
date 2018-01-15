@@ -11,6 +11,11 @@ class BenchmarkTool implements Benchmark {
         settings = s;
     }
 
+    @Override
+    public BenchmarkSettings getSettings() {
+        return settings;
+    }
+
     public BenchmarkReport run() {
         final BenchmarkReportBuilder builder = new BenchmarkReportBuilder(settings);
         final HttpConnectionFactory connectionFactory = new DefaultConnectionFactory(settings.getTimeout());

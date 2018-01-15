@@ -2,15 +2,14 @@ package org.ps.benchmarktool.benchmarking;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.net.URL;
 import java.time.Duration;
 
 public class BenchmarkReportImplTest extends Assert {
 
     @Test
     public void testEmptyReport() {
-        final BenchmarkReportBuilder builder = new BenchmarkReportBuilder(createTestBenchMarkSettings(1, 0));
+        BenchmarkSettings testBenchMarkSettings = TestUtils.createTestBenchMarkSettings(1, 0);
+        final BenchmarkReportBuilder builder = new BenchmarkReportBuilder(testBenchMarkSettings);
         builder.setTotalDuration(Duration.ZERO);
         final BenchmarkReport report = builder.getReport();
 
@@ -29,7 +28,8 @@ public class BenchmarkReportImplTest extends Assert {
 
     @Test
     public void testReportBuildingError() {
-        final BenchmarkReportBuilder builder = new BenchmarkReportBuilder(createTestBenchMarkSettings(1, 0));
+        BenchmarkSettings testBenchMarkSettings = TestUtils.createTestBenchMarkSettings(1, 0);
+        final BenchmarkReportBuilder builder = new BenchmarkReportBuilder(testBenchMarkSettings);
         builder.onRequestError(new RuntimeException("simulated error"));
         builder.onRequestComplete(Duration.ofSeconds(2), 10, 200);
         builder.setTotalDuration(Duration.ZERO);
@@ -56,7 +56,8 @@ public class BenchmarkReportImplTest extends Assert {
                 Duration.ofMillis(100)
         };
 
-        final BenchmarkReportBuilder builder = new BenchmarkReportBuilder(createTestBenchMarkSettings(2, durations.length));
+        BenchmarkSettings testBenchMarkSettings = TestUtils.createTestBenchMarkSettings(2, durations.length);
+        final BenchmarkReportBuilder builder = new BenchmarkReportBuilder(testBenchMarkSettings);
         for (Duration duration : durations) {
             builder.onRequestComplete(duration, 50, 200);
         }
@@ -91,7 +92,8 @@ public class BenchmarkReportImplTest extends Assert {
                 Duration.ofMillis(170), Duration.ofMillis(100)
         };
 
-        final BenchmarkReportBuilder builder = new BenchmarkReportBuilder(createTestBenchMarkSettings(2,  durations.length));
+        BenchmarkSettings testBenchMarkSettings = TestUtils.createTestBenchMarkSettings(2, durations.length);
+        final BenchmarkReportBuilder builder = new BenchmarkReportBuilder(testBenchMarkSettings);
         for (Duration duration : durations) {
             builder.onRequestComplete(duration, 50, 200);
         }
@@ -114,29 +116,5 @@ public class BenchmarkReportImplTest extends Assert {
         assertEquals(Duration.ofMillis(307), report.getPercentileBoundValue(90));
         assertEquals(Duration.ofMillis(5000), report.getPercentileBoundValue(100));
         assertEquals(Duration.ofMillis(5000), report.getPercentileBoundValue(120));
-    }
-
-    private BenchmarkSettings createTestBenchMarkSettings(int concurrency, int requestsCount) {
-        return new BenchmarkSettings() {
-            @Override
-            public int getRequestCount() {
-                return requestsCount;
-            }
-
-            @Override
-            public URL getTargetUrl() {
-                return null;
-            }
-
-            @Override
-            public int getConcurrencyLevel() {
-                return concurrency;
-            }
-
-            @Override
-            public Duration getTimeout() {
-                return null;
-            }
-        };
     }
 }
