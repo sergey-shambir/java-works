@@ -10,12 +10,18 @@ public class BenchmarkReportImpl implements BenchmarkReport {
     private int succeedCount = 0;
     private int failedCount = 0;
     private int killedByTimeoutCount = 0;
-    private int requestCount;
-    private int concurrencyLevel;
     private Duration requestsTotalDuration;
 
-    BenchmarkReportImpl() {
-        this.requestsTotalDuration = Duration.ZERO;
+    private final BenchmarkSettings settings;
+
+    BenchmarkReportImpl(BenchmarkSettings s) {
+        settings = s;
+        requestsTotalDuration = Duration.ZERO;
+    }
+
+    @Override
+    public BenchmarkSettings getSettings() {
+        return settings;
     }
 
     /**
@@ -46,7 +52,7 @@ public class BenchmarkReportImpl implements BenchmarkReport {
     }
 
     public final int getConcurrencyLevel() {
-        return this.concurrencyLevel;
+        return settings.getConcurrencyLevel();
     }
 
     public final Duration getRequestsTotalDuration() {
@@ -54,10 +60,11 @@ public class BenchmarkReportImpl implements BenchmarkReport {
     }
 
     public final float getRequestsPerSecond() {
-        if (this.requestCount == 0) {
+        int requestCount = settings.getRequestCount();
+        if (requestCount == 0) {
             return 0;
         }
-        return 1000.f * (float)this.requestCount / (float)this.requestsTotalDuration.toMillis();
+        return 1000.f * (float)requestCount / (float)this.requestsTotalDuration.toMillis();
     }
 
     public final long getTransmittedByteCount() {
@@ -76,9 +83,7 @@ public class BenchmarkReportImpl implements BenchmarkReport {
         return killedByTimeoutCount;
     }
 
-    void setRequestsStats(int concurrencyLevel, int requestCount, Duration requestsTotalDuration) {
-        this.concurrencyLevel = concurrencyLevel;
-        this.requestCount = requestCount;
+    void setTotalDuration(Duration requestsTotalDuration) {
         this.requestsTotalDuration = requestsTotalDuration;
     }
 

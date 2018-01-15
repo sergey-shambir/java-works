@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 public class HttpRequestRunner {
     private final RequestListener requestListener;
     private final HttpConnectionFactory httpConnectionFactory;
-    private final int concurrencyLevel;
     private final ExecutorService executorService;
 
     public HttpRequestRunner(HttpConnectionFactory httpConnectionFactory, RequestListener requestListener,
@@ -17,7 +16,6 @@ public class HttpRequestRunner {
         assert concurrencyLevel > 0;
         this.httpConnectionFactory = httpConnectionFactory;
         this.requestListener = requestListener;
-        this.concurrencyLevel = concurrencyLevel;
         this.executorService = Executors.newFixedThreadPool(concurrencyLevel);
     }
 
@@ -29,8 +27,7 @@ public class HttpRequestRunner {
         }
         await();
 
-        final Duration totalDuration = Duration.ofNanos(System.nanoTime() - startTimeNano);
-        this.requestListener.setRequestsStats(concurrencyLevel, requestCount, totalDuration);
+        this.requestListener.setTotalDuration(Duration.ofNanos(System.nanoTime() - startTimeNano));
     }
 
     private void await() {

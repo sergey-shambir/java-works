@@ -27,8 +27,6 @@ public class HttpRequestRunnerTest extends Assert {
             HttpRequestRunner runner = new HttpRequestRunner(this.factory, this.listener, 4);
             runner.requestUrlMultipleTimes(new URL("http://example.com"), 1007);
 
-            assertEquals(1007, this.listener.getRequestCount());
-            assertEquals(4, this.listener.getConcurrencyLevel());
             assertEquals(1007, this.listener.getSucceedRequestCount());
         } catch (MalformedURLException ex) {
             fail("internal error: " + ex.getMessage());

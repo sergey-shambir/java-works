@@ -7,7 +7,11 @@ import java.time.Duration;
 
 class BenchmarkReportBuilder implements RequestListener {
     private RuntimeException lastException;
-    private final BenchmarkReportImpl report = new BenchmarkReportImpl();
+    private final BenchmarkReportImpl report;
+
+    BenchmarkReportBuilder(BenchmarkSettings settings) {
+        report = new BenchmarkReportImpl(settings);
+    }
 
     BenchmarkReport getReport() throws RuntimeException {
         if (this.lastException != null) {
@@ -38,7 +42,7 @@ class BenchmarkReportBuilder implements RequestListener {
     }
 
     @Override
-    public void setRequestsStats(int concurrencyLevel, int requestCount, Duration requestsTotalDuration) {
-        this.report.setRequestsStats(concurrencyLevel, requestCount, requestsTotalDuration);
+    public void setTotalDuration(Duration duration) {
+        this.report.setTotalDuration(duration);
     }
 }

@@ -14,6 +14,8 @@ import org.ps.benchmarktool.benchmarking.ReportPrinter;
 //       e.g. Node.js, Ruby (Jekyll), Apache, etc.
 
 class Main {
+    private static final String DEFAULTS_PATH = "defaults.yml";
+
     public static void main(String[] arguments) {
         try {
             BenchmarkReport report = prepareBenchmarkTool(arguments).run();
@@ -30,6 +32,7 @@ class Main {
 
     private static Benchmark prepareBenchmarkTool(String[] arguments) throws RuntimeException {
         BenchmarkBuilder builder = new BenchmarkBuilder();
+        builder.acceptYamlFile(DEFAULTS_PATH);
         builder.acceptCommandLineArguments(arguments);
 
         return builder.build();

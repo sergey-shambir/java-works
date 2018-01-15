@@ -12,4 +12,5 @@ public interface BenchmarkReport {
     int getTotalCount();
     int getFailedCount();
     int getRequestsKilledByTimeoutCount();
+    BenchmarkSettings getSettings();
 }

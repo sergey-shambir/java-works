@@ -1,10 +1,15 @@
 package org.ps.benchmarktool.benchmarking;
 
+import com.esotericsoftware.yamlbeans.YamlException;
+import com.esotericsoftware.yamlbeans.YamlReader;
 import org.apache.commons.cli.*;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.Map;
 
 public class BenchmarkBuilder {
     public class InvalidCommandLineArgumentsException extends RuntimeException {
@@ -19,7 +24,27 @@ public class BenchmarkBuilder {
         }
     }
 
-    private final BenchmarkTool tool = new BenchmarkTool();
+    class InvalidYamlFileException extends RuntimeException {
+        InvalidYamlFileException(YamlException e) {
+            super("invalid yaml file: " + e.getMessage(), e);
+        }
+    }
+
+    private final BenchmarkSettingsImpl settings = new BenchmarkSettingsImpl();
+
+    public void acceptYamlFile(String path) throws RuntimeException {
+        try {
+            YamlReader reader = new YamlReader(new FileReader(path));
+            Map data = reader.read(Map.class);
+            if (data != null) {
+                fillFromMap(data);
+            }
+        } catch (YamlException e) {
+            throw new InvalidYamlFileException(e);
+        } catch (FileNotFoundException e) {
+            // ignore
+        }
+    }
 
     public void acceptCommandLineArguments(String[] arguments) throws RuntimeException {
         CommandLineParser parser = new DefaultParser();
@@ -33,23 +58,33 @@ public class BenchmarkBuilder {
         }
     }
 
-    public Benchmark build() {
-        return tool;
+    public Benchmark build() throws RuntimeException {
+        validateSettings(settings);
+        return new BenchmarkTool(settings);
+    }
+
+    private void validateSettings(BenchmarkSettings settings) throws RuntimeException {
+        if (settings.getTargetUrl() == null) {
+            throw new RuntimeException("url is a required parameter");
+        }
+    }
+
+    private void fillFromMap(Map m) throws RuntimeException {
+        setupParameter(stringOrNull(m.get("url")), this::setTargetUrl);
+        setupParameter(stringOrNull(m.get("num")), this::setRequestCount);
+        setupParameter(stringOrNull(m.get("concurrency")), this::setConcurrencyLevel);
+        setupParameter(stringOrNull(m.get("timeout")), this::setTimeout);
     }
 
     private void fillFromCommandLineOptions(CommandLine cl) throws RuntimeException {
-        setupCommandLineParameter(() -> cl.getOptionValue("url"), this::setTargetUrl);
-        setupCommandLineParameter(() -> cl.getOptionValue("num"), this::setRequestCount);
-        setupCommandLineParameter(() -> cl.getOptionValue("concurrency"), this::setConcurrencyLevel);
-        setupCommandLineParameter(() -> cl.getOptionValue("timeout"), this::setTimeout);
+        setupParameter(() -> cl.getOptionValue("url"), this::setTargetUrl);
+        setupParameter(() -> cl.getOptionValue("num"), this::setRequestCount);
+        setupParameter(() -> cl.getOptionValue("concurrency"), this::setConcurrencyLevel);
+        setupParameter(() -> cl.getOptionValue("timeout"), this::setTimeout);
     }
 
-    private void setTargetUrl(String url) throws RuntimeException {
-        try {
-            tool.setTargetUrl(new URL(url));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Invalid url", e);
-        }
+    private ParameterProvider stringOrNull(Object o) {
+        return () -> o instanceof String ? o.toString() : null;
     }
 
     private interface Setter {
@@ -60,16 +95,24 @@ public class BenchmarkBuilder {
         String get();
     }
 
-    private void setupCommandLineParameter(ParameterProvider pp, Setter s) throws RuntimeException {
+    private void setupParameter(ParameterProvider pp, Setter s) throws RuntimeException {
         final String v = pp.get();
-        if (v != null) {
+        if (v != null && !v.isEmpty()) {
             s.set(v);
+        }
+    }
+
+    private void setTargetUrl(String url) throws RuntimeException {
+        try {
+            settings.setTargetUrl(new URL(url));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Invalid url", e);
         }
     }
 
     private void setRequestCount(String num) throws RuntimeException {
         try {
-            tool.setRequestCount(Integer.parseUnsignedInt(num));
+            settings.setRequestCount(Integer.parseUnsignedInt(num));
         } catch (NumberFormatException e) {
             throw new RuntimeException("requests count is not a number", e);
         }
@@ -77,7 +120,7 @@ public class BenchmarkBuilder {
 
     private void setConcurrencyLevel(String concurrency) throws RuntimeException {
         try {
-            tool.setConcurrencyLevel(Integer.parseUnsignedInt(concurrency));
+            settings.setConcurrencyLevel(Integer.parseUnsignedInt(concurrency));
         } catch (NumberFormatException e) {
             throw new RuntimeException("concurrency level is not a number", e);
         }
@@ -85,7 +128,7 @@ public class BenchmarkBuilder {
 
     private void setTimeout(String timeout) throws RuntimeException {
         try {
-            tool.setTimeout(Duration.ofMillis(Integer.parseUnsignedInt(timeout)));
+            settings.setTimeout(Duration.ofMillis(Integer.parseUnsignedInt(timeout)));
         } catch (NumberFormatException e) {
             throw new RuntimeException("timeout is not a number", e);
         }

@@ -9,8 +9,6 @@ public class MockRequestListener implements RequestListener {
     private final ArrayList<Duration> timeSpentList = new ArrayList<>();
     private final ArrayList<Long> byteCounts = new ArrayList<>();
     private final ArrayList<Integer> statusCodes = new ArrayList<>();
-    private int concurrencyLevel;
-    private int requestCount;
 
     final int getSucceedRequestCount() {
         return (int)statusCodes.stream().filter((Integer code) -> code == HttpURLConnection.HTTP_OK).count();
@@ -29,14 +27,6 @@ public class MockRequestListener implements RequestListener {
     final int getLastStatusCode() {
         maybeRethrow();
         return this.statusCodes.get(this.statusCodes.size() - 1);
-    }
-
-    final int getConcurrencyLevel() {
-        return this.concurrencyLevel;
-    }
-
-    final int getRequestCount() {
-        return this.requestCount;
     }
 
     @Override
@@ -61,9 +51,8 @@ public class MockRequestListener implements RequestListener {
     }
 
     @Override
-    public void setRequestsStats(int concurrencyLevel, int requestCount, Duration requestsTotalDuration) {
-        this.concurrencyLevel = concurrencyLevel;
-        this.requestCount = requestCount;
+    public void setTotalDuration(Duration requestsTotalDuration) {
+        // nothing
     }
 
     private void maybeRethrow() {
