@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.time.Duration;
 
-public class BenchmarkReportTest extends Assert {
+public class BenchmarkReportImplTest extends Assert {
 
     @Test
     public void testEmptyReport() {
@@ -78,7 +78,6 @@ public class BenchmarkReportTest extends Assert {
         assertEquals(Duration.ofMillis(5000), report.getPercentileBoundValue(100));
         assertEquals(Duration.ofMillis(5000), report.getPercentileBoundValue(120));
     }
-
 
     @Test
     public void testReportBuildingForOddRequestsCount() {

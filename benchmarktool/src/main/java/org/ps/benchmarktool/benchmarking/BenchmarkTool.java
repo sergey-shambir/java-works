@@ -7,11 +7,11 @@ import org.ps.benchmarktool.http.HttpRequestRunner;
 import java.net.URL;
 import java.time.Duration;
 
-public class BenchmarkTool {
-    private int requestCount;
+class BenchmarkTool implements Benchmark {
     private URL targetUrl;
-    private Duration timeout;
-    private int concurrencyLevel;
+    private int requestCount = 100;
+    private int concurrencyLevel = Runtime.getRuntime().availableProcessors();
+    private Duration timeout = Duration.ofMillis(100);
 
     public void setRequestCount(int requestCount) {
         this.requestCount = requestCount;
@@ -29,7 +29,7 @@ public class BenchmarkTool {
         this.concurrencyLevel = concurrencyLevel;
     }
 
-    public void runBenchmark() {
+    public void run() {
         final BenchmarkReportBuilder builder = new BenchmarkReportBuilder();
         final HttpConnectionFactory connectionFactory = new DefaultConnectionFactory(this.timeout);
         final HttpRequestRunner runner = new HttpRequestRunner(connectionFactory, builder, this.concurrencyLevel);
@@ -52,6 +52,7 @@ public class BenchmarkTool {
             .append("\n")
             .append("killed by timeout count: ")
             .append(report.getRequestsKilledByTimeoutCount())
+            .append(" (timeout ").append(timeout.toString()).append(")")
             .append("\n")
             .append("failed count:            ")
             .append(report.getFailedCount())
