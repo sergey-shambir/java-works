@@ -1,4 +1,4 @@
-url: http://test.com
+url: https://www.test.com
 num: 42
 concurrency: 7
-timeout: 58
+timeout: 65
