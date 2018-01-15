@@ -3,7 +3,7 @@ package org.ps.benchmarktool;
 import org.apache.commons.cli.*;
 import org.ps.benchmarktool.benchmarking.Benchmark;
 import org.ps.benchmarktool.benchmarking.BenchmarkBuilder;
-import org.ps.benchmarktool.benchmarking.BenchmarkBuilder.InvalidCommandLineArgumentsException;
+import org.ps.benchmarktool.benchmarking.BenchmarkBuilder.InvalidArgumentsException;
 import org.ps.benchmarktool.benchmarking.BenchmarkReport;
 import org.ps.benchmarktool.benchmarking.BenchmarkReportPrinter;
 
@@ -20,7 +20,7 @@ class Main {
         try {
             BenchmarkReport report = prepareBenchmarkTool(arguments).run();
             (new BenchmarkReportPrinter(System.out)).print(report);
-        } catch (InvalidCommandLineArgumentsException e) {
+        } catch (InvalidArgumentsException e) {
             System.err.println(e.getMessage());
             printUsage(e.getOptions());
             System.exit(1);

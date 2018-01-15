@@ -1,6 +1,6 @@
 package org.ps.benchmarktool.benchmarking;
 
-import org.ps.benchmarktool.benchmarking.BenchmarkBuilder.InvalidCommandLineArgumentsException;
+import org.ps.benchmarktool.benchmarking.BenchmarkBuilder.InvalidArgumentsException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -81,22 +81,22 @@ public class BenchmarkBuilderTest extends Assert {
         new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--t=someStuff"});
     }
 
-    @Test(expected = InvalidCommandLineArgumentsException.class)
+    @Test(expected = InvalidArgumentsException.class)
     public void testInvalidArgumentThrowsException() {
         new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--someStuff"});
     }
 
-    @Test(expected = InvalidCommandLineArgumentsException.class)
+    @Test(expected = InvalidArgumentsException.class)
     public void testInvalidArgumentThrowsExceptionItHasNotNullOptions() {
         try {
             new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--someStuff"});
-        } catch (InvalidCommandLineArgumentsException e) {
+        } catch (InvalidArgumentsException e) {
             assertNotNull(e.getOptions());
             throw e;
         }
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = InvalidArgumentsException.class)
     public void testBuildWithoutTargetUrlThrowsException() {
         new BenchmarkBuilder().build();
     }

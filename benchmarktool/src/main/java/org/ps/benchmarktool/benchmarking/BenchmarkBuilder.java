@@ -12,9 +12,9 @@ import java.time.Duration;
 import java.util.Map;
 
 public class BenchmarkBuilder {
-    public class InvalidCommandLineArgumentsException extends RuntimeException {
+    public class InvalidArgumentsException extends RuntimeException {
         private final Options options;
-        InvalidCommandLineArgumentsException(Options o, ParseException cause) {
+        InvalidArgumentsException(Options o, Exception cause) {
             super(cause.getMessage(), cause);
             options = o;
         }
@@ -48,7 +48,7 @@ public class BenchmarkBuilder {
             CommandLine cmd = parser.parse(options, arguments);
             fillFromCommandLineOptions(cmd);
         } catch (ParseException ex) {
-            throw new InvalidCommandLineArgumentsException(options, ex);
+            throw new InvalidArgumentsException(options, ex);
         }
     }
 
@@ -59,7 +59,7 @@ public class BenchmarkBuilder {
 
     private void validateSettings(BenchmarkSettings settings) throws RuntimeException {
         if (settings.getTargetUrl() == null) {
-            throw new RuntimeException("url is a required parameter");
+            throw new InvalidArgumentsException(getCommandLineOptions(), new RuntimeException("url is a required parameter"));
         }
     }
 
