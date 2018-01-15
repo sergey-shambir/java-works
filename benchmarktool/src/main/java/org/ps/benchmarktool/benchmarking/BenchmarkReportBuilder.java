@@ -7,9 +7,9 @@ import java.time.Duration;
 
 public class BenchmarkReportBuilder implements RequestListener {
     private RuntimeException lastException;
-    private BenchmarkReport report;
+    private final BenchmarkReport report;
 
-    public BenchmarkReportBuilder() {
+    BenchmarkReportBuilder() {
         this.report = new BenchmarkReport();
     }
 

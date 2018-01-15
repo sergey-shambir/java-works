@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 
 public class BenchmarkReport {
-    private ArrayList<Duration> timeSpentList;
+    private final ArrayList<Duration> timeSpentList = new ArrayList<>();
     private boolean isDirty;
     private long transmittedByteCount;
     private int succeedCount;
@@ -13,15 +13,14 @@ public class BenchmarkReport {
     private int concurrencyLevel;
     private Duration requestsTotalDuration;
 
-    public BenchmarkReport() {
-        this.timeSpentList = new ArrayList<>();
+    BenchmarkReport() {
         this.requestsTotalDuration = Duration.ZERO;
     }
 
     /**
      * Returns percentile of requests time spent corresponding to given ratio.
-     * @param ratio - ratio in range [0..1]
-     * @return
+     * @param percentile - percentile in range [0..1]
+     * @return Duration
      */
     public final Duration getPercentileBoundValue(int percentile) {
         normalize();
@@ -41,8 +40,7 @@ public class BenchmarkReport {
             return Duration.ZERO;
         }
 
-        final Duration total =
-            this.timeSpentList.stream().reduce(Duration.ZERO, (duration, duration2) -> duration.plus(duration2));
+        final Duration total = this.timeSpentList.stream().reduce(Duration.ZERO, Duration::plus);
         return total.dividedBy((long)this.timeSpentList.size());
     }
 
@@ -90,7 +88,7 @@ public class BenchmarkReport {
         this.timeSpentList.add(duration);
     }
 
-    private final void normalize() {
+    private void normalize() {
         if (this.isDirty) {
             this.timeSpentList.sort(null);
             this.isDirty = false;

@@ -13,7 +13,7 @@ import java.time.Duration;
 // TODO: benchmark different local servers with "hello world" server
 //       e.g. Node.js, Ruby (Jekyll), Apache, etc.
 
-public class Main {
+class Main {
     private static final int DEFAULT_REQUEST_COUNT = 100;
     private static final Duration DEFAULT_REQUEST_TIMEOUT = Duration.ofSeconds(40);
 

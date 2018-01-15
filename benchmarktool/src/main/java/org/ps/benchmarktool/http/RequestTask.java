@@ -6,7 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
 
-public class RequestTask implements Runnable {
+class RequestTask implements Runnable {
     private final HttpConnectionFactory factory;
     private final RequestListener listener;
     private final URL url;
@@ -18,7 +18,7 @@ public class RequestTask implements Runnable {
      * @param listener - object which listens complete/exception events, will be called concurrently
      * @param url - url which should be requested
      */
-    public RequestTask(HttpConnectionFactory factory, RequestListener listener, URL url) {
+    RequestTask(HttpConnectionFactory factory, RequestListener listener, URL url) {
         this.factory = factory;
         this.listener = listener;
         this.url = url;

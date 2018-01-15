@@ -12,7 +12,6 @@ public class BenchmarkTool {
     private URL targetUrl;
     private Duration timeout;
     private int concurrencyLevel;
-    private Duration totalDuration;
 
     public void setRequestCount(int requestCount) {
         this.requestCount = requestCount;

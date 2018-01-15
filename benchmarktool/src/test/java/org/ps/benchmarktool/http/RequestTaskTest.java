@@ -1,6 +1,5 @@
 package org.ps.benchmarktool.http;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,10 +20,6 @@ public class RequestTaskTest extends Assert {
         } catch (Exception ex) {
             fail("cannot mock before running tests");
         }
-    }
-
-    @After
-    public void shutdown() {
     }
 
     @Test

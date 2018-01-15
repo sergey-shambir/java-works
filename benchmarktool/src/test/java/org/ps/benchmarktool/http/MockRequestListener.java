@@ -6,17 +6,11 @@ import java.util.ArrayList;
 
 public class MockRequestListener implements RequestListener {
     private RuntimeException exception;
-    private ArrayList<Duration> timeSpentList;
-    private ArrayList<Long> byteCounts;
-    private ArrayList<Integer> statusCodes;
+    private final ArrayList<Duration> timeSpentList = new ArrayList<>();
+    private final ArrayList<Long> byteCounts = new ArrayList<>();
+    private final ArrayList<Integer> statusCodes = new ArrayList<>();
     private int concurrencyLevel;
     private int requestCount;
-
-    MockRequestListener() {
-        this.timeSpentList = new ArrayList<>();
-        this.byteCounts = new ArrayList<>();
-        this.statusCodes = new ArrayList<>();
-    }
 
     final int getSucceedRequestCount() {
         return (int)statusCodes.stream().filter((Integer code) -> code == HttpURLConnection.HTTP_OK).count();

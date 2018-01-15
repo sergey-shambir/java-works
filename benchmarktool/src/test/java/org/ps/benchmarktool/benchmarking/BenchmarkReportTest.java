@@ -45,7 +45,7 @@ public class BenchmarkReportTest extends Assert {
     }
 
     @Test
-    public void testReportBuildingForEventRequestsCound() {
+    public void testReportBuildingForEventRequestsCount() {
         // Sorted: 1, 1, 7, 29, 50, 99, 100, 307, 2000, 5000
         Duration[] durations = {
                 Duration.ofMillis(1), Duration.ofMillis(50), Duration.ofMillis(99),
@@ -81,7 +81,7 @@ public class BenchmarkReportTest extends Assert {
 
 
     @Test
-    public void testReportBuildingForOddRequestsCound() {
+    public void testReportBuildingForOddRequestsCount() {
         // Sorted: 1, 1, 7, 29, 50, 99, 100, 170, 307, 2000, 5000
         Duration[] durations = {
                 Duration.ofMillis(1), Duration.ofMillis(50), Duration.ofMillis(99),
