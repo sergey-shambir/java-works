@@ -4,10 +4,10 @@ import org.ps.benchmarktool.http.DefaultConnectionFactory;
 import org.ps.benchmarktool.http.HttpConnectionFactory;
 import org.ps.benchmarktool.http.HttpRequestRunner;
 
-class BenchmarkTool implements Benchmark {
+class BenchmarkImpl implements Benchmark {
     private final BenchmarkSettings settings;
 
-    BenchmarkTool(BenchmarkSettings s) {
+    BenchmarkImpl(BenchmarkSettings s) {
         settings = s;
     }
 

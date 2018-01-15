@@ -54,7 +54,7 @@ public class BenchmarkBuilder {
 
     public Benchmark build() throws RuntimeException {
         validateSettings(settings);
-        return new BenchmarkTool(settings);
+        return new BenchmarkImpl(settings);
     }
 
     private void validateSettings(BenchmarkSettings settings) throws RuntimeException {
