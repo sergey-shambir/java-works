@@ -63,33 +63,33 @@ public class BenchmarkBuilderTest extends Assert {
 
     @Test(expected = RuntimeException.class)
     public void testInvalidUrlThrowsRuntimeException() {
-        new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--u=ololo"});
+        new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--u=someStuff"});
     }
 
     @Test(expected = RuntimeException.class)
     public void testInvalidRequestCountThrowsRuntimeException() {
-        new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--n=ololo"});
+        new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--n=someStuff"});
     }
 
     @Test(expected = RuntimeException.class)
     public void testInvalidConcurrencyLevelThrowsRuntimeException() {
-        new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--c=ololo"});
+        new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--c=someStuff"});
     }
 
     @Test(expected = RuntimeException.class)
     public void testInvalidTimeoutThrowsRuntimeException() {
-        new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--t=ololo"});
+        new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--t=someStuff"});
     }
 
     @Test(expected = InvalidCommandLineArgumentsException.class)
     public void testInvalidArgumentThrowsException() {
-        new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--urlecs"});
+        new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--someStuff"});
     }
 
     @Test(expected = InvalidCommandLineArgumentsException.class)
     public void testInvalidArgumentThrowsExceptionItHasNotNullOptions() {
         try {
-            new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--urlecs"});
+            new BenchmarkBuilder().acceptCommandLineArguments(new String[]{"--someStuff"});
         } catch (InvalidCommandLineArgumentsException e) {
             assertNotNull(e.getOptions());
             throw e;
