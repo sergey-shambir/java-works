@@ -5,7 +5,7 @@ import org.ps.benchmarktool.benchmarking.Benchmark;
 import org.ps.benchmarktool.benchmarking.BenchmarkBuilder;
 import org.ps.benchmarktool.benchmarking.BenchmarkBuilder.InvalidCommandLineArgumentsException;
 import org.ps.benchmarktool.benchmarking.BenchmarkReport;
-import org.ps.benchmarktool.benchmarking.ReportPrinter;
+import org.ps.benchmarktool.benchmarking.BenchmarkReportPrinter;
 
 // TODO: create settings.properties with argument defaults
 // TODO: time-outed requests should be accounted as failed
@@ -19,7 +19,7 @@ class Main {
     public static void main(String[] arguments) {
         try {
             BenchmarkReport report = prepareBenchmarkTool(arguments).run();
-            (new ReportPrinter(System.out)).print(report);
+            (new BenchmarkReportPrinter(System.out)).print(report);
         } catch (InvalidCommandLineArgumentsException e) {
             System.err.println(e.getMessage());
             printUsage(e.getOptions());

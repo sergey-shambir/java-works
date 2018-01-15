@@ -8,7 +8,7 @@ import java.io.PrintStream;
 import java.io.StringWriter;
 import java.time.Duration;
 
-public class ReportPrinterTest extends Assert {
+public class BenchmarkReportPrinterTest extends Assert {
     @Test
     public void testPrintReturnsNotEmptyText() {
         BenchmarkSettings settings = TestUtils.createTestBenchMarkSettings(1, 0);
@@ -23,7 +23,7 @@ public class ReportPrinterTest extends Assert {
                 sw.write(b);
             }
         };
-        ReportPrinter printer = new ReportPrinter(new PrintStream(os) {
+        BenchmarkReportPrinter printer = new BenchmarkReportPrinter(new PrintStream(os) {
             @Override
             public String toString() {
                 return sw.toString();

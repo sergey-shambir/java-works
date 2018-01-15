@@ -4,11 +4,11 @@ import java.io.PrintStream;
 import java.time.Duration;
 import java.util.Arrays;
 
-public class ReportPrinter {
+public class BenchmarkReportPrinter {
     private final int[] PERCENTILES = {50, 80, 90, 95, 99, 100};
     private final PrintStream stream;
 
-    public ReportPrinter(PrintStream ps) {
+    public BenchmarkReportPrinter(PrintStream ps) {
         stream = ps;
     }
 
